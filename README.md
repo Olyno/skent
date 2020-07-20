@@ -2,9 +2,9 @@
 
 The Skript addon to manage your files.
 
- * ⚡ Fast: Skent try to offer the best experience with the best speed available using Async and Java nio
- * 💪 Flexbile: All syntaxes of Skent are flexible and can be reused at any time
- * 🧠 Human logic: Show errors only when needed, and try to have the best human-friendy syntaxes
+ * ⚡ **Fast:** Skent try to offer the best experience with the best speed available using Async and Java nio
+ * 💪 **Flexbile:** All syntaxes of Skent are flexible and can be reused at any time
+ * 🧠 **Human logic:** Show errors only when needed, and try to have the best human-friendy syntaxes
 
 ## Usage
 

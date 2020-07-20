@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew shadowjar
 
       - name: Upload nightly build
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: Skent
           path: build/libs/Skent-all.jar

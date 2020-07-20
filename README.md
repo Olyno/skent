@@ -3,7 +3,7 @@
 The Skript addon to manage your files.
 
  * ⚡ **Fast:** Skent try to offer the best experience with the best speed available using Async and Java nio
- * 💪 **Flexbile:** All syntaxes of Skent are flexible and can be reused at any time
+ * 💪 **Flexible:** All syntaxes of Skent are flexible and can be reused at any time
  * 🧠 **Human logic:** Show errors only when needed, and try to have the best human-friendy syntaxes
 
 ## Usage
@@ -17,7 +17,7 @@ command /create:
 
 ## Buy me a ko-fi
 
-Whether you use this project, have learned something from it, or just like it, please consider supporting it by buying me a coffee, so I can dedicate more time on open-source projects like this 😉 (personnally I prefer hot chocolate but whatever)
+Whether you use this project, have learned something from it, or just like it, please consider supporting it by buying me a coffee, so I can dedicate more time on open-source projects like this 😉 (personally I prefer hot chocolate but whatever)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/A0A31UA1J)
 

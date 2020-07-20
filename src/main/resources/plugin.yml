@@ -1,0 +1,7 @@
+name: Skent
+description: Manage files with Skript.
+author: Olyno
+version: 2.0
+main: com.olyno.skent.Skent
+depend:
+  - Skript

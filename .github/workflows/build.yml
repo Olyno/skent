@@ -1,0 +1,31 @@
+name: Build Skent
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Setup Java environement
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
+
+      - name: Build Skent
+        run: ./gradlew shadowjar
+
+      - name: Upload nightly build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Skent
+          path: build/libs/Skent-all.jar

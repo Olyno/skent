@@ -71,16 +71,14 @@ public class EffCopyFileDir extends AsyncEffect {
             if (Files.exists(sourceFile)) {
                 if (Files.isDirectory(sourceFile)) {
                     copyDir(sourceFile, targetFile);
-                    new CopyEvent(source.getSingle(e), target.getSingle(e));
-                    new ChangeEvent(targetFile);
                 } else {
                     if (Files.isDirectory(targetFile)) {
                         targetFile = Paths.get(targetFile.toAbsolutePath() + File.separator + sourceFile.getFileName());
                     }
                     Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
-                    new CopyEvent(source.getSingle(e), target.getSingle(e));
-                    new ChangeEvent(targetFile);
                 }
+                new ChangeEvent(targetFile);
+                new CopyEvent(source.getSingle(e), target.getSingle(e));
             } else {
                 throw new IOException();
             }
@@ -89,25 +87,19 @@ public class EffCopyFileDir extends AsyncEffect {
         }
     }
 
-    // Source: https://stackoverflow.com/a/10068306/8845770
+    // Source: https://stackoverflow.com/a/60621544/8845770
     private void copyDir(Path source, Path target) throws IOException {
         Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
 
-            Path sourcePath = null;
-
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.copy(file, target.resolve(sourcePath.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(file, target.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                if (sourcePath == null) {
-                    sourcePath = dir;
-                } else {
-                    Files.createDirectories(target.resolve(sourcePath.relativize(dir)));
-                }
+                Files.createDirectories(target.resolve(source.relativize(dir)));
                 return FileVisitResult.CONTINUE;
             }
 

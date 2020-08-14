@@ -1,13 +1,13 @@
 package com.olyno.skent.skript.events.bukkit;
 
+import java.nio.file.Path;
+
+import com.olyno.skent.Skent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-
-import java.nio.file.Path;
-
-import com.olyno.skent.Skent;
 
 public class RenameEvent extends Event implements Listener {
 

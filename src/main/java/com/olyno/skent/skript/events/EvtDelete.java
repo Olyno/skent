@@ -1,5 +1,9 @@
 package com.olyno.skent.skript.events;
 
+import java.nio.file.Path;
+
+import com.olyno.skent.skript.events.bukkit.DeleteEvent;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -8,9 +12,6 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import com.olyno.skent.skript.events.bukkit.DeleteEvent;
-
-import java.nio.file.Path;
 
 @Name("On File/Directory Deleted")
 @Description("When a file or directory is deleted.")

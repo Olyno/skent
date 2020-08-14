@@ -1,13 +1,14 @@
 package com.olyno.skent.skript.expressions;
 
+import java.nio.file.Path;
+
+import com.google.common.io.Files;
+
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
-import com.google.common.io.Files;
-
-import java.nio.file.Path;
 
 @Name("Extension of File")
 @Description("Returns the extension of a file.")

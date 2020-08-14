@@ -50,19 +50,17 @@ public class EffAppendFile extends AsyncEffect {
 
 	private Expression<String> content;
 	private Expression<Path> paths;
-	private boolean isSingle;
 
 	@SuppressWarnings("unchecked")
 	protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
 		content = (Expression<String>) expr[0];
 		paths = (Expression<Path>) expr[1];
-		isSingle = paths.getSource().isSingle();
 		return true;
 	}
 
 	@Override
 	protected void executeAsync(Event e) {
-		Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+		Path[] pathsList = paths.getArray(e);
 		for (Path path : pathsList) {
 			if (Files.exists(path)) {
 				try {

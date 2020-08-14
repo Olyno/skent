@@ -1,5 +1,10 @@
 package com.olyno.skent.skript.conditions;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -9,10 +14,6 @@ import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import org.bukkit.event.Event;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Name("File or directory exists?")
 @Description("Checks if the file or directory exists or not.")

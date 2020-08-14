@@ -1,10 +1,11 @@
 package com.olyno.skent.util.scope;
 
+import org.bukkit.event.Event;
+
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.config.SimpleNode;
 import ch.njol.skript.log.SkriptLogger;
-import org.bukkit.event.Event;
 
 /**
  * A effect section that doesn't need to parse your current section separated.

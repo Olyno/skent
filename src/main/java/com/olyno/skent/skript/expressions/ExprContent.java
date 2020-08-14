@@ -1,5 +1,17 @@
 package com.olyno.skent.skript.expressions;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.olyno.skent.skript.events.bukkit.ChangeEvent;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
@@ -11,17 +23,6 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import org.bukkit.event.Event;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.olyno.skent.skript.events.bukkit.ChangeEvent;
 
 @Name("Content from file")
 @Description("Returns the content of a file. Can be changed.")

@@ -1,5 +1,11 @@
 package com.olyno.skent.skript.expressions;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -10,11 +16,6 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import org.bukkit.event.Event;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedList;
 
 @Name("File/Directory")
 @Description("Returns a file or directory from its path. Can return a list of file.")

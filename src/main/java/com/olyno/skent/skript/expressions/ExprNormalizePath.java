@@ -1,12 +1,12 @@
 package com.olyno.skent.skript.expressions;
 
+import java.nio.file.Path;
+
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
-
-import java.nio.file.Path;
 
 @Name("Normalize Path")
 @Description("Returns normalized path of file.")

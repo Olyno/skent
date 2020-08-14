@@ -48,39 +48,41 @@ public class EffCopyFileDir extends AsyncEffect {
 
     static {
         registerAsyncEffect(EffCopyFileDir.class,
-            "copy %path% to %path%"
+            "copy %paths% to %path%"
         );
     }
 
-    private Expression<Path> source;
+    private Expression<Path> sources;
     private Expression<Path> target;
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
-        source = (Expression<Path>) expr[0];
+        sources = (Expression<Path>) expr[0];
         target = (Expression<Path>) expr[1];
         return true;
     }
 
     @Override
     protected void executeAsync(Event e) {
-        Path sourceFile = source.getSingle(e);
+        Path[] sourceFiles = sources.getArray(e);
         Path targetFile = target.getSingle(e);
         try {
-            if (Files.exists(sourceFile)) {
-                if (Files.isDirectory(sourceFile)) {
-                    copyDir(sourceFile, targetFile);
-                } else {
-                    if (Files.isDirectory(targetFile)) {
-                        targetFile = Paths.get(targetFile.toAbsolutePath() + File.separator + sourceFile.getFileName());
+            for (Path sourceFile : sourceFiles) {
+                if (Files.exists(sourceFile)) {
+                    if (Files.isDirectory(sourceFile)) {
+                        copyDir(sourceFile, targetFile);
+                    } else {
+                        if (Files.isDirectory(targetFile)) {
+                            targetFile = Paths.get(targetFile.toAbsolutePath() + File.separator + sourceFile.getFileName());
+                        }
+                        Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
                     }
-                    Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                    new ChangeEvent(targetFile);
+                    new CopyEvent(sourceFile, targetFile);
+                } else {
+                    throw new IOException();
                 }
-                new ChangeEvent(targetFile);
-                new CopyEvent(source.getSingle(e), target.getSingle(e));
-            } else {
-                throw new IOException();
             }
         } catch (IOException ex) {
             Skript.exception(ex);
@@ -108,7 +110,7 @@ public class EffCopyFileDir extends AsyncEffect {
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "copy " + source.toString(e, debug) + " to " + target.toString(e, debug);
+        return "copy " + sources.toString(e, debug) + " to " + target.toString(e, debug);
     }
 
 }

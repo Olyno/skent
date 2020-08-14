@@ -1,15 +1,19 @@
 package com.olyno.skent;
 
-import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.olyno.skent.util.PackageFilter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
 
 public class Skent extends JavaPlugin {
 

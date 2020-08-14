@@ -1,15 +1,5 @@
 package com.olyno.skent.util;
 
-/*
-
-    Source: https://github.com/SkriptLang/Skript/blob/master/src/main/java/ch/njol/skript/SkriptAddon.java
-
- */
-
-import ch.njol.util.coll.iterator.EnumerationIterable;
-import com.olyno.skent.Skent;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -18,6 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import com.olyno.skent.Skent;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+/*
+
+    Source: https://github.com/SkriptLang/Skript/blob/master/src/main/java/ch/njol/skript/SkriptAddon.java
+ */
+
+import ch.njol.util.coll.iterator.EnumerationIterable;
 
 public class PackageFilter<T> {
 

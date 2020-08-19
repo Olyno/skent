@@ -31,6 +31,11 @@ public class Types {
 				}
 
 				@Override
+				public boolean canParse(final ParseContext context) {
+					return false;
+				}
+
+				@Override
 				public String toString(Path path, int arg1) {
 					return path.toString();
 				}

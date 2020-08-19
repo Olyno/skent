@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.olyno.skent.skript.events.EvtWatching;
 import com.olyno.skent.util.PackageFilter;
-import com.olyno.skent.util.watch.AsyncWatch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -72,9 +70,9 @@ public class Skent extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		for (AsyncWatch watcher : EvtWatching.watchers) {
-			watcher.stopWatching();
-		}
+		// for (AsyncWatch watcher : EvtWatching.watchers) {
+		// 	watcher.stopWatching();
+		// }
 	}
 
 }

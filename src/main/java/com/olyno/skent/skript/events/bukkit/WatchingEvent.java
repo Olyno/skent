@@ -2,13 +2,13 @@ package com.olyno.skent.skript.events.bukkit;
 
 import java.nio.file.Path;
 
-import com.olyno.skent.Skent;
 import com.olyno.skent.util.watch.WatchListener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+
+import ch.njol.skript.lang.Trigger;
 
 public class WatchingEvent extends Event implements WatchListener, Listener {
 
@@ -16,9 +16,12 @@ public class WatchingEvent extends Event implements WatchListener, Listener {
 
     private Path path;
     private boolean isExecuted;
+    private Trigger trigger;
 
-    public WatchingEvent() {
-        Bukkit.getScheduler().runTask(Skent.instance, () -> Bukkit.getPluginManager().callEvent(this));
+    public WatchingEvent() { }
+
+    public WatchingEvent(Trigger trigger) {
+        this.trigger = trigger;
     }
 
     public static HandlerList getHandlerList() {
@@ -34,11 +37,7 @@ public class WatchingEvent extends Event implements WatchListener, Listener {
     public void onChange(Path path) {
         this.path = path;
         this.isExecuted = true;
-        Bukkit.getScheduler().runTask(Skent.instance, () -> {
-            System.out.println("Calling bukkit event...");
-            Bukkit.getPluginManager().callEvent(this);
-            this.isExecuted = false;
-        });
+        trigger.execute(this);
     }
 
     public Path getPath() {

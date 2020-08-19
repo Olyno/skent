@@ -40,13 +40,12 @@ public class AsyncWatch extends Thread {
         while (running.get() && Files.exists(defaultPath)) {
             try {
                 WatchKey key = service.take();
-                // Thread.sleep( 100 ); // Eliminate double calls
                 if (key != null) {
                     for (WatchEvent<?> event : key.pollEvents()) {
                         Path filePath = (Path) event.context();
                         Path comparingPath = isDir ? defaultPath.getParent() : defaultPath.getParent().resolve(filePath);
                         Path allPath = defaultPath.getParent().resolve(filePath);
-                        if (allPath.toFile().length() > 0) {
+                        if (allPath.toFile().length() > 0) { // Eliminate double calls
                             if (keysName.contains(event.kind().name().toLowerCase())) {
                                 if (comparingPath.toString().equals(defaultPath.toString())) {
                                     for (WatchListener listener : listeners) {
@@ -79,7 +78,7 @@ public class AsyncWatch extends Thread {
         return this;
     }
 
-    public AsyncWatch addListenerKeys(ArrayList<WatchEvent.Kind<?>> keys) {
+    public AsyncWatch setListenerKeys(ArrayList<WatchEvent.Kind<?>> keys) {
         this.keysName = keys.stream().map(key -> key.name().toLowerCase()).collect(Collectors.toList());
         return this;
     }

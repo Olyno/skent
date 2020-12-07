@@ -83,17 +83,17 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
                     if (allPaths.contains(event.path()) || allPaths.contains(event.path().getParent())) {
                         switch (event.eventType()) {
                             case CREATE:
-                                if (type == WatchType.CREATION) {
+                                if (type == WatchType.CREATION || type == WatchType.ANY) {
                                     this.event.run(event.path());
                                 }
                                 break;
                             case MODIFY:
-                                if (type == WatchType.EDITION) {
+                                if (type == WatchType.EDITION || type == WatchType.ANY) {
                                     this.event.run(event.path());
                                 }
                                 break;
                             case DELETE:
-                                if (type == WatchType.DELETION) {
+                                if (type == WatchType.DELETION || type == WatchType.ANY) {
                                     this.event.run(event.path());
                                 }
                                 break;

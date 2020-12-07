@@ -69,10 +69,4 @@ public class Skent extends JavaPlugin {
 
 	}
 
-	public void onDisable() {
-		// for (AsyncWatch watcher : EvtWatching.watchers) {
-		// 	watcher.stopWatching();
-		// }
-	}
-
 }

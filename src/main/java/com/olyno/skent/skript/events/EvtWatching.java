@@ -1,21 +1,15 @@
 package com.olyno.skent.skript.events;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchService;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.olyno.skent.skript.events.bukkit.WatchingEvent;
 import com.olyno.skent.util.WatchType;
-import com.olyno.skent.util.watch.AsyncWatch;
 
 import org.bukkit.event.Event;
 
@@ -30,27 +24,22 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import io.methvin.watcher.DirectoryWatcher;
 
 @Name("On Watch File/Directory")
 @Description("When something changed in a path")
-@Examples({ "watching file creation at \"plugins/Skript/scripts\":\n" + "\tbroadcast \"I added a new script!\"" })
+@Examples({"watching file creation at \"plugins/Skript/scripts\":", "\tbroadcast \"I added a new script!\"" })
 @Since("2.1")
 
 public class EvtWatching extends SelfRegisteringSkriptEvent {
 
-    private static HashMap<WatchType, WatchEvent.Kind<?>> watchTypes = new HashMap<>();
-
     static {
-
-        watchTypes.put(WatchType.CREATION, StandardWatchEventKinds.ENTRY_CREATE);
-        watchTypes.put(WatchType.EDITION, StandardWatchEventKinds.ENTRY_MODIFY);
-        watchTypes.put(WatchType.DELETION, StandardWatchEventKinds.ENTRY_DELETE);
-
         Skript.registerEvent("Watch Path", EvtWatching.class, WatchingEvent.class,
-                "[watch[ing] [for]] (file|dir[ectory]) creation[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
-                "[watch[ing] [for]] (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
-                "[watch[ing] [for]] (file|dir[ectory]) deletion[s]) (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
-                "[watch[ing] [for]] (any|every) (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%");
+            "[watch[ing] [for]] (file|dir[ectory]) creation[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
+            "[watch[ing] [for]] (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
+            "[watch[ing] [for]] (file|dir[ectory]) deletion[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
+            "[watch[ing] [for]] (any|every) (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%"
+        );
 
         EventValues.registerEventValue(WatchingEvent.class, Path.class, new Getter<Path, WatchingEvent>() {
             @Override
@@ -63,11 +52,10 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
 
     private String[] paths;
     private WatchType type;
-    private boolean watchAllChanges;
 
+    private DirectoryWatcher watcher;
     private Trigger trigger;
-
-    private AsyncWatch watcher;
+    private WatchingEvent event;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -76,52 +64,64 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
         if (matchedPattern < 3) {
             type = WatchType.values()[matchedPattern];
         }
-        watchAllChanges = matchedPattern == 3;
         return true;
     }
 
     private void registerListener() {
+        List<Path> allPaths = Arrays.asList(paths)
+            .stream()
+            .map(path -> Paths.get(path))
+            .collect(Collectors.toList());
+        List<Path> directories = allPaths
+            .stream()
+            .map(path -> Files.isDirectory(path) ? path : path.getParent())
+            .collect(Collectors.toList());
         try {
-            for (String watchingPath : paths) {
-                Path defaultPath = Paths.get(watchingPath);
-                Path pathWatcher = defaultPath;
-                WatchService watchService = FileSystems.getDefault().newWatchService();
-                ArrayList<WatchEvent.Kind<?>> keys = new ArrayList<>();
-                if (Files.isRegularFile(pathWatcher))
-                    pathWatcher = pathWatcher.getParent();
-                if (!Files.isDirectory(pathWatcher))
-                    return;
-                if (watchAllChanges) {
-                    keys.addAll(Arrays.asList(WatchType.values())
-                        .stream()
-                        .map(watchType -> watchTypes.get(watchType))
-                        .collect(Collectors.toList()));
-                } else {
-                    keys.add(watchTypes.get(type));
-                }
-                pathWatcher.register(watchService, keys.toArray(new WatchEvent.Kind<?>[keys.size()]));
-                watcher = new AsyncWatch(watchService)
-                    .IsDir(Files.isDirectory(defaultPath))
-                    .setDefaultPath(defaultPath)
-                    .setListenerKeys(keys)
-                    .addListener(new WatchingEvent(trigger));
-                watcher.start();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            this.watcher = DirectoryWatcher.builder()
+                .paths(directories)
+                .listener(event -> {
+                    if (allPaths.contains(event.path()) || allPaths.contains(event.path().getParent())) {
+                        switch (event.eventType()) {
+                            case CREATE:
+                                if (type == WatchType.CREATION) {
+                                    this.event.run(event.path());
+                                }
+                                break;
+                            case MODIFY:
+                                if (type == WatchType.EDITION) {
+                                    this.event.run(event.path());
+                                }
+                                break;
+                            case DELETE:
+                                if (type == WatchType.DELETION) {
+                                    this.event.run(event.path());
+                                }
+                                break;
+                        }
+                    }
+                })
+                .build();
+            watcher.watchAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void register(Trigger trigger) {
         this.trigger = trigger;
+        this.event = new WatchingEvent(trigger);
         registerListener();
     }
 
     @Override
     public void unregister(Trigger t) {
         this.trigger = null;
-        watcher.stopWatching();
+        try {
+            watcher.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

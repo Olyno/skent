@@ -2,20 +2,17 @@ package com.olyno.skent.skript.events.bukkit;
 
 import java.nio.file.Path;
 
-import com.olyno.skent.util.watch.WatchListener;
-
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import ch.njol.skript.lang.Trigger;
 
-public class WatchingEvent extends Event implements WatchListener, Listener {
+public class WatchingEvent extends Event implements Listener {
 
     public static final HandlerList handlers = new HandlerList();
 
     private Path path;
-    private boolean isExecuted;
     private Trigger trigger;
 
     public WatchingEvent() { }
@@ -33,19 +30,13 @@ public class WatchingEvent extends Event implements WatchListener, Listener {
         return handlers;
     }
 
-    @Override
-    public void onChange(Path path) {
+    public void run(Path path) {
         this.path = path;
-        this.isExecuted = true;
         trigger.execute(this);
     }
 
     public Path getPath() {
         return path;
-    }
-
-    public boolean IsExecuted() {
-        return isExecuted;
     }
 
 }

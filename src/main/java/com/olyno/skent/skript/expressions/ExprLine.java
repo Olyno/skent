@@ -107,8 +107,10 @@ public class ExprLine extends SimpleExpression<String> {
                 }
 
                 ArrayList<String> changes = new ArrayList<String>();
-                for (Object o : delta) {
-                    changes.add((String) o);
+                if (delta != null) {
+                    for (Object o : delta) {
+                        changes.add((String) o);
+                    }
                 }
     
                 switch (mode) {
@@ -138,7 +140,7 @@ public class ExprLine extends SimpleExpression<String> {
                         break;
 
                     case DELETE:
-                        lines.remove(theLine);
+                        lines.remove(lineToChange);
                         break;
                     
                     default:

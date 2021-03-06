@@ -1,5 +1,17 @@
 package com.olyno.skent.skript.effects;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+
+import com.olyno.skent.skript.events.bukkit.ChangeEvent;
+import com.olyno.skent.util.skript.AsyncEffect;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -8,17 +20,6 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-
-import com.olyno.skent.skript.events.bukkit.ChangeEvent;
-import com.olyno.skent.util.AsyncEffect;
-import org.bukkit.event.Event;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 
 @Name("Appends Text File")
 @Description("Appends any text to a file.")

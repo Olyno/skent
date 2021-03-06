@@ -1,4 +1,4 @@
-package com.olyno.skent.util;
+package com.olyno.skent.util.skript;
 
 import ch.njol.skript.conditions.base.PropertyCondition;
 import ch.njol.skript.lang.Condition;

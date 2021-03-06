@@ -1,4 +1,4 @@
-package com.olyno.skent.util;
+package com.olyno.skent.util.skript;
 
 import java.util.ArrayList;
 

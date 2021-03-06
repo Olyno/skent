@@ -1,5 +1,16 @@
 package com.olyno.skent.skript.effects;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.regex.Pattern;
+
+import com.olyno.skent.skript.events.bukkit.ChangeEvent;
+import com.olyno.skent.skript.events.bukkit.UnzipEvent;
+import com.olyno.skent.util.skript.AsyncEffect;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -8,18 +19,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-
-import com.olyno.skent.skript.events.bukkit.ChangeEvent;
-import com.olyno.skent.skript.events.bukkit.UnzipEvent;
-import com.olyno.skent.util.AsyncEffect;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
-import org.bukkit.event.Event;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.regex.Pattern;
 
 @Name("Unzip File or Directory")
 @Description("Unzips files and/or directories.")

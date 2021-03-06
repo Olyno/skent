@@ -3,8 +3,8 @@ package com.olyno.skent.skript.conditions;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.olyno.skent.util.PriorityPropertyCondition;
 import com.olyno.skent.util.Utils;
+import com.olyno.skent.util.skript.PriorityPropertyCondition;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

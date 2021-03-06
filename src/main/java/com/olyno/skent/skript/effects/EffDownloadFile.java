@@ -1,18 +1,5 @@
 package com.olyno.skent.skript.effects;
 
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.util.Kleenean;
-
-import com.olyno.skent.skript.events.bukkit.ChangeEvent;
-import com.olyno.skent.skript.events.bukkit.DownloadEvent;
-import com.olyno.skent.util.AsyncEffect;
-import org.bukkit.event.Event;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +7,20 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.util.concurrent.CompletionException;
+
+import com.olyno.skent.skript.events.bukkit.ChangeEvent;
+import com.olyno.skent.skript.events.bukkit.DownloadEvent;
+import com.olyno.skent.util.skript.AsyncEffect;
+
+import org.bukkit.event.Event;
+
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser;
+import ch.njol.util.Kleenean;
 
 @Name("Download File")
 @Description("Downloads a file from a url.")

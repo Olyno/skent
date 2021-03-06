@@ -1,5 +1,15 @@
 package com.olyno.skent.skript.effects;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.regex.Pattern;
+
+import com.olyno.skent.skript.events.bukkit.ChangeEvent;
+import com.olyno.skent.skript.events.bukkit.ZipEvent;
+import com.olyno.skent.util.skript.AsyncEffect;
+
+import org.bukkit.event.Event;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -8,19 +18,10 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-
-import com.olyno.skent.skript.events.bukkit.ChangeEvent;
-import com.olyno.skent.skript.events.bukkit.ZipEvent;
-import com.olyno.skent.util.AsyncEffect;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
-import org.bukkit.event.Event;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.regex.Pattern;
 
 @Name("Zip File or Directory")
 @Description("Zips files and/or directories.")

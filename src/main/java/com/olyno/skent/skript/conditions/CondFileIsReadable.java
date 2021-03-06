@@ -3,7 +3,7 @@ package com.olyno.skent.skript.conditions;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.olyno.skent.util.PropertyPathCondition;
+import com.olyno.skent.util.skript.PropertyPathCondition;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

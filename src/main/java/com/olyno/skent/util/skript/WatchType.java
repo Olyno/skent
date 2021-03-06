@@ -1,4 +1,4 @@
-package com.olyno.skent.util;
+package com.olyno.skent.util.skript;
 
 public enum WatchType {
     CREATION,

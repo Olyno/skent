@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.olyno.skent.util.PropertyPathCondition;
+import com.olyno.skent.util.skript.PropertyPathCondition;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

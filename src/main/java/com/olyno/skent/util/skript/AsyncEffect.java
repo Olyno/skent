@@ -1,4 +1,4 @@
-package com.olyno.skent.util;
+package com.olyno.skent.util.skript;
 
 import com.olyno.skent.util.scope.EffectSection;
 

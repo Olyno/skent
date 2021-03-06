@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.olyno.skent.skript.events.bukkit.WatchingEvent;
-import com.olyno.skent.util.WatchType;
+import com.olyno.skent.util.skript.WatchType;
 
 import org.bukkit.event.Event;
 

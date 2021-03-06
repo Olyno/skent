@@ -1,12 +1,10 @@
 package com.olyno.skent;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.olyno.skent.util.PackageFilter;
+import com.olyno.skent.util.PackageLoader;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -57,15 +55,12 @@ public class Skent extends JavaPlugin {
 		}));
 
 		// Register events
-		try {
-			List<Class<Listener>> classes = new PackageFilter<Listener>("com.olyno.skent.skript.events.bukkit").getClasses();
-			for (Class<Listener> event : classes) {
-				Listener evt = event.getDeclaredConstructor().newInstance();
-				getServer().getPluginManager().registerEvents(evt, this);
-			}
-		} catch (IOException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
+		new PackageLoader<Listener>("com.olyno.skent.skript.events.bukkit", "register events").getList()
+            .thenAccept(events -> {
+                for (Listener evt : events) {
+                    getServer().getPluginManager().registerEvents(evt, this);
+                }
+            });
 
 	}
 

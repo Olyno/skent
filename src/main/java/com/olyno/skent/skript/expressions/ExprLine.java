@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.olyno.skent.skript.events.bukkit.ChangeEvent;
@@ -23,7 +24,11 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
 @Name("Line of file")
-@Description("Returns a specific line of a file.")
+@Description(
+    "Returns a specific line of a file.\n"
+    + "Be carefull: when you remove a content from a line, it uses regex! So if you're using special chars as \":\" or \"()\" it will convert it in regex.\n"
+    + "Uses \"\\\" before the character to avoid that."
+)
 @Examples({
     "command line:\n" +
         "\ttrigger:\n" +
@@ -80,6 +85,7 @@ public class ExprLine extends SimpleExpression<String> {
         switch (mode) {
             case SET:
             case ADD:
+            case DELETE:
             case REMOVE:
                 return new Class[]{String.class};
             default:
@@ -95,27 +101,44 @@ public class ExprLine extends SimpleExpression<String> {
         if (Files.isRegularFile(currentPath)) {
             try {
                 List<String> lines = Files.readAllLines(currentPath, StandardCharsets.UTF_8);
-                if (lines.size() < theLine) {
-                    for (int i = lines.size(); i < theLine; i++) {
-                        lines.add("");
-                    }
+                int lineToChange = theLine - 1;
+                if (lineToChange > lines.size()) {
+                    return;
+                }
+
+                ArrayList<String> changes = new ArrayList<String>();
+                for (Object o : delta) {
+                    changes.add((String) o);
                 }
     
                 switch (mode) {
     
                     case SET:
-                        lines.set(theLine - 1, (String) delta[0]);
-                        new ChangeEvent(currentPath);
+                        if (lineToChange < 0 && line == null) {
+                            lines.replaceAll(value -> String.join("", changes));
+                        } else {
+                            lines.set(lineToChange, String.join("", changes));
+                        }
                         break;
     
                     case ADD:
-                        lines.set(theLine - 1, lines.get(theLine - 1) + delta[0]);
-                        new ChangeEvent(currentPath);
+                        if (lineToChange < 0 && line == null) {
+                            lines.replaceAll(value -> value + String.join("", changes));
+                        } else {
+                            lines.set(lineToChange, lines.get(lineToChange) + String.join("", changes));
+                        }
                         break;
     
                     case REMOVE:
-                        lines.set(theLine - 1, lines.get(theLine - 1).replaceAll((String) delta[0], ""));
-                        new ChangeEvent(currentPath);
+                        if (lineToChange < 0 && line == null) {
+                            lines.replaceAll(value -> value.replaceAll(String.join("|", changes), ""));
+                        } else {
+                            lines.set(lineToChange, lines.get(lineToChange).replaceAll(String.join("|", changes), ""));
+                        }
+                        break;
+
+                    case DELETE:
+                        lines.remove(theLine);
                         break;
                     
                     default:
@@ -123,6 +146,7 @@ public class ExprLine extends SimpleExpression<String> {
                 }
     
                 Files.write(currentPath, lines, StandardCharsets.UTF_8);
+                new ChangeEvent(currentPath);
     
             } catch (IOException ex) {
                 Skript.exception(ex);

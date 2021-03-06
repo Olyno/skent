@@ -38,7 +38,7 @@ public class ExprOwner extends SimplePropertyExpression<Path, String> {
                 Skript.exception(ex);
             }
         }
-        return null;
+        return new Class[0];
     }
 
     @Override

@@ -85,7 +85,7 @@ public class ExprLine extends SimpleExpression<String> {
             default:
                 break;
         }
-        return null;
+        return new Class[0];
     }
 
     @Override

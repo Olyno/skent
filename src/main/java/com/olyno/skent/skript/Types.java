@@ -46,6 +46,41 @@ public class Types {
 				}
 
 			}));
+
+		Classes.registerClass(new ClassInfo<>(Process.class, "processe")
+			.defaultExpression(new EventValueExpression<>(Process.class))
+			.user("process")
+			.name("Process")
+			.description("A process running. Can be get from execute effect.")
+			.since("2.2.0")
+			.parser(new Parser<Process>() {
+
+				@Override
+				public String getVariableNamePattern() {
+					return ".+";
+				}
+
+				@Override
+				public Process parse(String process, ParseContext arg1) {
+					return null;
+				}
+
+				@Override
+				public boolean canParse(final ParseContext context) {
+					return false;
+				}
+
+				@Override
+				public String toString(Process process, int arg1) {
+					return "" + process.pid();
+				}
+
+				@Override
+				public String toVariableNameString(Process process) {
+					return "" + process.pid();
+				}
+
+			}));
 	}
 
 }

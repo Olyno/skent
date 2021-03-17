@@ -1,10 +1,10 @@
-package com.olyno.skent.skript.effects;
+package com.olyno.skent.skript.effects.process;
 
-import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.olyno.skent.skript.events.bukkit.ExecuteCompletedEvent;
 import com.olyno.skent.skript.events.bukkit.ExecuteEvent;
 import com.olyno.skent.util.skript.AsyncEffect;
 
@@ -41,7 +41,7 @@ public class EffExecuteFile extends AsyncEffect {
 
     static {
         registerAsyncEffect(EffExecuteFile.class,
-            "(execute|run) %paths%"
+            "(execute|run|start) %paths%"
         );
     }
 
@@ -61,16 +61,18 @@ public class EffExecuteFile extends AsyncEffect {
         Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
         for (Path path : pathsList) {
             if (Files.exists(path)) {
-                if (Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-                    try {
-                        Desktop.getDesktop().open(path.toFile());
-                        new ExecuteEvent(path);
-                    } catch (IOException ex) {
-                        if (Files.exists(path)) {
-                            Skript.exception(ex);
-                        }
+                try {
+                    Runtime runTime = Runtime.getRuntime();
+                    Process process = runTime.exec(path.toString());
+                    new ExecuteEvent(path, process);
+                    if (process.waitFor() >= 0) {
+                        new ExecuteCompletedEvent(path, process);
                     }
+                } catch (IOException | InterruptedException ex) {
+                    ex.printStackTrace();
                 }
+            } else {
+                Skript.error("[Skent] Can't execute '" + path.toString() + "': file not found");
             }
         }
     }

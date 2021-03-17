@@ -5,3 +5,5 @@ version: 2.2.0
 main: com.olyno.skent.Skent
 depend:
   - Skript
+softdepend:
+  - SkriptMigrate

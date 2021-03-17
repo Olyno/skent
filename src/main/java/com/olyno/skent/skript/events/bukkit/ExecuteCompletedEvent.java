@@ -9,16 +9,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-public class ExecuteEvent extends Event implements Listener {
+public class ExecuteCompletedEvent extends Event implements Listener {
 
     public static final HandlerList handlers = new HandlerList();
 
     private Path file;
     private Process process;
 
-    public ExecuteEvent() { }
+    public ExecuteCompletedEvent() { }
 
-    public ExecuteEvent(Path file, Process process) {
+    public ExecuteCompletedEvent(Path file, Process process) {
         this.file = file;
         this.process = process;
         Bukkit.getScheduler().runTask(Skent.instance, () -> Bukkit.getPluginManager().callEvent(this));

@@ -1,0 +1,8 @@
+author: Olyno
+addon_name: Skent
+steps:
+  2.2.0:
+    - find: move (.+) with replace
+      result: move $1 replacing existing ones
+    - find: rename (.+) with replace
+      result: rename $1 replacing existing ones

@@ -43,33 +43,31 @@ public class EffRenameFileDir extends AsyncEffect {
     static {
         registerAsyncEffect(EffRenameFileDir.class,
             "rename %paths% to %string%",
-            "rename %paths% to %string% with replace"
+            "rename %paths% to %string% (overwriting|replacing) existing one[s]"
         );
     }
 
     private Expression<Path> paths;
     private Expression<String> name;
-    private Boolean withReplace;
-    private boolean isSingle;
+    private Boolean shouldOverwrite;
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         paths = (Expression<Path>) expr[0];
         name = (Expression<String>) expr[1];
-        withReplace = matchedPattern == 1;
-        isSingle = paths.getSource().isSingle();
+        shouldOverwrite = matchedPattern == 1;
         return true;
     }
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathsList = paths.getArray(e);
         String currentName = name.getSingle(e);
         for (Path path : pathsList) {
             if (Files.exists(path)) {
                 try {
-                    if (withReplace) {
+                    if (shouldOverwrite) {
                         Files.move(path, path.resolveSibling(currentName), StandardCopyOption.REPLACE_EXISTING);
                     } else {
                         Files.move(path, path.resolveSibling(currentName));
@@ -87,7 +85,7 @@ public class EffRenameFileDir extends AsyncEffect {
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "rename " + paths.toString(e, debug) + " to " + name.toString(e, debug) + (withReplace ? " with" : " without") + " replace";
+        return "rename " + paths.toString(e, debug) + " to " + name.toString(e, debug) + (shouldOverwrite ? " replacing existing ones" : "");
     }
 
 }

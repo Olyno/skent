@@ -8,11 +8,13 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
 public abstract class AsyncEffect extends EffectSection implements Runnable {
 
     private Event event;
+    private Object localVars;
 	protected boolean needExecuteCode = false; 
 
     protected abstract void executeAsync(Event e);
@@ -34,6 +36,7 @@ public abstract class AsyncEffect extends EffectSection implements Runnable {
     @Override
     protected void execute(Event e) {
         this.event = e;
+        localVars = Variables.removeLocals(e);
         Thread effect = new Thread(this);
         effect.setName(this.toString());
         effect.start();
@@ -41,10 +44,14 @@ public abstract class AsyncEffect extends EffectSection implements Runnable {
 
     @Override
     public void run() {
+        if (localVars != null) {
+            Variables.setLocalVariables(this.event, localVars);
+        }
         this.executeAsync(this.event);
         if (this.needExecuteCode) {
             this.runSection(this.event);
         }
+        Variables.removeLocals(this.event);
     }
     
 }

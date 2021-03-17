@@ -45,13 +45,13 @@ public class EffMoveFileDir extends AsyncEffect {
     static {
         registerAsyncEffect(EffMoveFileDir.class,
             "move %paths% to %path%",
-            "move %paths% to %path% with replace"
+            "move %paths% to %path% (overwriting|replacing) existing one[s]"
         );
     }
 
     private Expression<Path> paths;
     private Expression<Path> target;
-    private Boolean withReplace = false;
+    private Boolean shouldOverwrite = false;
     private boolean isSingle;
 
     @Override
@@ -59,7 +59,7 @@ public class EffMoveFileDir extends AsyncEffect {
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         paths = (Expression<Path>) expr[0];
         target = (Expression<Path>) expr[1];
-        withReplace = matchedPattern == 1;
+        shouldOverwrite = matchedPattern == 1;
         isSingle = paths.getSource().isSingle();
         return true;
     }
@@ -74,7 +74,7 @@ public class EffMoveFileDir extends AsyncEffect {
             }
             Path destFile = targetFile;
             try {
-                if (withReplace) {
+                if (shouldOverwrite) {
                     Files.move(path, destFile, StandardCopyOption.REPLACE_EXISTING);
                 } else {
                     Files.move(path, destFile);
@@ -90,7 +90,7 @@ public class EffMoveFileDir extends AsyncEffect {
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "move " + paths.toString(e, debug) + " to " + target.toString(e, debug);
+        return "move " + paths.toString(e, debug) + " to " + target.toString(e, debug) + (shouldOverwrite ? " replacing existing ones" : "");
     }
 
 }

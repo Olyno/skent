@@ -24,9 +24,15 @@ import ch.njol.skript.util.Getter;
 public class EvtRename {
 
     static {
-        Skript.registerEvent("Path Renamed", SimpleEvent.class, RenameEvent.class,
+        Skript.registerEvent("On File/Directory Renamed", SimpleEvent.class, RenameEvent.class,
             "(file|dir[ector(ies|y)]|path) rename[d]"
-        );
+        )
+            .description("When a file or directory is renamed.")
+            .examples(
+                "on file renamed:\n" +
+                    "\tbroadcast \"My file %event-path% has been renamed!\""
+            )
+            .since("1.0");
 
         EventValues.registerEventValue(RenameEvent.class, String.class, new Getter<String, RenameEvent>() {
             @Override

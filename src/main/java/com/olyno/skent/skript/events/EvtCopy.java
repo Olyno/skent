@@ -5,28 +5,22 @@ import java.nio.file.Path;
 import com.olyno.skent.skript.events.bukkit.CopyEvent;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 
-@Name("On File/Directory Copied")
-@Description("When a file or directory is copied.")
-@Examples({
-    "on file copied:\n" +
-    "\tbroadcast \"My file %event-path% has been copied!\""
-})
-@Since("1.0")
-
 public class EvtCopy {
 
     static {
-        Skript.registerEvent("Path Copied", SimpleEvent.class, CopyEvent.class,
+        Skript.registerEvent("On File/Directory Copied", SimpleEvent.class, CopyEvent.class,
             "(file|dir[ector(ies|y)]|path) cop(y|ied)"
-        );
+        )
+            .description("When a file or directory is copied.")
+            .examples(
+                "on file copied:\n" +
+                    "\tbroadcast \"My file %event-path% has been copied!\""
+            )
+            .since("1.0");
 
         EventValues.registerEventValue(CopyEvent.class, Path.class, new Getter<Path, CopyEvent>() {
             @Override

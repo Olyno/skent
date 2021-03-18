@@ -5,28 +5,22 @@ import java.nio.file.Path;
 import com.olyno.skent.skript.events.bukkit.UnzipEvent;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 
-@Name("On File/Directory Unziped")
-@Description("When files are unzipped.")
-@Examples({
-    "on file unziped:\n" +
-    "\tbroadcast \"My file %event-path% has been unziped!\""
-})
-@Since("1.0")
-
 public class EvtUnzip {
 
     static {
-        Skript.registerEvent("Path Unziped", SimpleEvent.class, UnzipEvent.class,
+        Skript.registerEvent("On File/Directory Unziped", SimpleEvent.class, UnzipEvent.class,
             "(file|dir[ector(ies|y)]|path) unzip[ed]"
-        );
+        )
+            .description("When files are unzipped.")
+            .examples(
+                "on file unziped:\n" +
+                    "\tbroadcast \"My file %event-path% has been unziped!\""
+            )
+            .since("1.0");
 
         EventValues.registerEventValue(UnzipEvent.class, Path.class, new Getter<Path, UnzipEvent>() {
             @Override

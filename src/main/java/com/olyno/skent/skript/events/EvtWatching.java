@@ -14,10 +14,6 @@ import com.olyno.skent.util.skript.WatchType;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -26,20 +22,21 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import io.methvin.watcher.DirectoryWatcher;
 
-@Name("On Watch File/Directory")
-@Description("When something changed in a path")
-@Examples({"watching file creation at \"plugins/Skript/scripts\":", "\tbroadcast \"I added a new script!\"" })
-@Since("2.1")
-
 public class EvtWatching extends SelfRegisteringSkriptEvent {
 
     static {
-        Skript.registerEvent("Watch Path", EvtWatching.class, WatchingEvent.class,
+        Skript.registerEvent("On Watch File/Directory", EvtWatching.class, WatchingEvent.class,
             "[watch[ing] [for]] (file|dir[ectory]) creation[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) deletion[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (any|every) (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%"
-        );
+        )
+            .description("When something changed in a path")
+            .examples(
+                "watching file creation at \"plugins/Skript/scripts\":\n"
+                    + "\tbroadcast \"I added a new script!\""
+            )
+            .since("2.1");
 
         EventValues.registerEventValue(WatchingEvent.class, Path.class, new Getter<Path, WatchingEvent>() {
             @Override

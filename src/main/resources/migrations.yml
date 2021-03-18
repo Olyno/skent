@@ -1,8 +1,12 @@
 author: Olyno
 addon_name: Skent
 steps:
-  2.2.0:
+  3.0.0:
     - find: move (.+) with replace
       result: move $1 replacing existing ones
     - find: rename (.+) with replace
       result: rename $1 replacing existing ones
+    - find: "(dir(ector(ies|y))?|path) execute(d)?:"
+      result: "file executed:"
+    - find: "dir(ector(ies|y))? download(.+)"
+      result: "file download$2"

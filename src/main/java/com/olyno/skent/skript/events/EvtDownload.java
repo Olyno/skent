@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtDownload {
 
     static {
-        Skript.registerEvent("On File Downloaded", SimpleEvent.class, DownloadEvent.class,
+        Skript.registerEvent("File Downloaded", SimpleEvent.class, DownloadEvent.class,
             "file download[(ing|ed)]"
         )
             .description("When a file or directory is downloaded.")

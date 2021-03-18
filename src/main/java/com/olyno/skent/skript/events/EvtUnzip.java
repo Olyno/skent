@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtUnzip {
 
     static {
-        Skript.registerEvent("On File/Directory Unziped", SimpleEvent.class, UnzipEvent.class,
+        Skript.registerEvent("File/Directory Unziped", SimpleEvent.class, UnzipEvent.class,
             "(file|dir[ector(ies|y)]|path) unzip[ed]"
         )
             .description("When files are unzipped.")

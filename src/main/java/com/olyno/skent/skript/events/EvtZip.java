@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtZip {
 
     static {
-        Skript.registerEvent("On File/Directory Ziped", SimpleEvent.class, ZipEvent.class,
+        Skript.registerEvent("File/Directory Ziped", SimpleEvent.class, ZipEvent.class,
             "(file|dir[ector(ies|y)]|path) zip[ed]"
         )
             .description("When files or directories are zipped.")

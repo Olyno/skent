@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtChange {
 
     static {
-        Skript.registerEvent("On File/Directory Changed", SimpleEvent.class, ChangeEvent.class,
+        Skript.registerEvent("File/Directory Changed", SimpleEvent.class, ChangeEvent.class,
             "(file|dir[ector(ies|y)]|path) change[d]"
         )
             .description("When a file or directory change.")

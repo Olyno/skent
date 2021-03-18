@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtExecute {
 
     static {
-        Skript.registerEvent("On File Executed", SimpleEvent.class, ExecuteEvent.class,
+        Skript.registerEvent("File Executed", SimpleEvent.class, ExecuteEvent.class,
             "file (execute[d]|start[ed]|running)"
         )
             .description("When a file is executed.")

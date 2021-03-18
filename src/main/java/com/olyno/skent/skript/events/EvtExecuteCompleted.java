@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtExecuteCompleted {
 
     static {
-        Skript.registerEvent("On File Execution Completed", SimpleEvent.class, ExecuteEvent.class,
+        Skript.registerEvent("File Execution Completed", SimpleEvent.class, ExecuteEvent.class,
             "(file|dir[ector(ies|y)]|path) execution (end[ed]|complete[d]|finish[ed])"
         )
             .description("When a file finished to be executed.")

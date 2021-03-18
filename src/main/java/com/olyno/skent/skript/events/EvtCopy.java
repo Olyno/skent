@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtCopy {
 
     static {
-        Skript.registerEvent("On File/Directory Copied", SimpleEvent.class, CopyEvent.class,
+        Skript.registerEvent("File/Directory Copied", SimpleEvent.class, CopyEvent.class,
             "(file|dir[ector(ies|y)]|path) cop(y|ied)"
         )
             .description("When a file or directory is copied.")

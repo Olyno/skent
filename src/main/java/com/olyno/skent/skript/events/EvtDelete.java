@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtDelete {
 
     static {
-        Skript.registerEvent("On File/Directory Deleted", SimpleEvent.class, DeleteEvent.class,
+        Skript.registerEvent("File/Directory Deleted", SimpleEvent.class, DeleteEvent.class,
             "(file|dir[ector(ies|y)]|path) delet(e[d]|ion)"
         )
             .description("When a file or directory is deleted.")

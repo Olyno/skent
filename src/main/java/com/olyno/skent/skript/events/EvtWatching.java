@@ -25,7 +25,7 @@ import io.methvin.watcher.DirectoryWatcher;
 public class EvtWatching extends SelfRegisteringSkriptEvent {
 
     static {
-        Skript.registerEvent("On Watch File/Directory", EvtWatching.class, WatchingEvent.class,
+        Skript.registerEvent("Watch File/Directory", EvtWatching.class, WatchingEvent.class,
             "[watch[ing] [for]] (file|dir[ectory]) creation[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) deletion[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",

@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtCreate {
 
     static {
-        Skript.registerEvent("On File/Directory Created", SimpleEvent.class, CreateEvent.class,
+        Skript.registerEvent("File/Directory Created", SimpleEvent.class, CreateEvent.class,
             "(file|dir[ector(ies|y)]|path) creat(e[d]|ion)"
         )
             .description("When a file or directory is created.")

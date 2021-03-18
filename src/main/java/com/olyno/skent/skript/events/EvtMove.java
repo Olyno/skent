@@ -12,7 +12,7 @@ import ch.njol.skript.util.Getter;
 public class EvtMove {
 
     static {
-        Skript.registerEvent("On File/Directory Moved", SimpleEvent.class, MoveEvent.class,
+        Skript.registerEvent("File/Directory Moved", SimpleEvent.class, MoveEvent.class,
             "(file|dir[ector(ies|y)]|path) mov(ed|ing|e)"
         )
             .description("When a file or directory is moved.")

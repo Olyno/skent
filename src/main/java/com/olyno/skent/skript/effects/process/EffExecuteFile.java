@@ -58,7 +58,7 @@ public class EffExecuteFile extends AsyncEffect {
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathsList = paths.getArray(e);
         for (Path path : pathsList) {
             if (Files.exists(path)) {
                 try {

@@ -51,7 +51,6 @@ public class EffInsertLine extends AsyncEffect {
     private Expression<String> content;
     private Expression<Number> line;
     private Expression<Path> paths;
-    private boolean isSingle;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -59,13 +58,12 @@ public class EffInsertLine extends AsyncEffect {
         content = (Expression<String>) expr[0];
         line = (Expression<Number>) expr[1];
         paths = (Expression<Path>) expr[2];
-        isSingle = paths.getSource().isSingle();
         return true;
     }
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathsList = paths.getArray(e);
         int theLine = line.getSingle(e).intValue();
         String currentContent = content.getSingle(e);
         for (Path path : pathsList) {

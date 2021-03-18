@@ -52,7 +52,6 @@ public class EffMoveFileDir extends AsyncEffect {
     private Expression<Path> paths;
     private Expression<Path> target;
     private Boolean shouldOverwrite = false;
-    private boolean isSingle;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -60,13 +59,12 @@ public class EffMoveFileDir extends AsyncEffect {
         paths = (Expression<Path>) expr[0];
         target = (Expression<Path>) expr[1];
         shouldOverwrite = matchedPattern == 1;
-        isSingle = paths.getSource().isSingle();
         return true;
     }
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathsList = paths.getArray(e);
         Path targetFile = target.getSingle(e);
         for (Path path : pathsList) {
             if (Files.isDirectory(targetFile)) {

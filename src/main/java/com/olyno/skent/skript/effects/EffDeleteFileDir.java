@@ -48,19 +48,17 @@ public class EffDeleteFileDir extends AsyncEffect {
     }
 
     private Expression<Path> paths;
-    private boolean isSingle;
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         paths = (Expression<Path>) expr[0];
-        isSingle = paths.getSource().isSingle();
         return true;
     }
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathList = paths.getArray(e);
         for (Path path : pathList) {
             if (Files.exists(path)) {
                 try {

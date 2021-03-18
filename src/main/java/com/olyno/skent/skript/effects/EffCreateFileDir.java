@@ -53,13 +53,11 @@ public class EffCreateFileDir extends AsyncEffect {
 
     private Expression<Path> paths;
     private Expression<String> content;
-    private boolean isSingle;
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         paths = (Expression<Path>) expr[0];
-        isSingle = paths.getSource().isSingle();
         if (matchedPattern == 1) {
             content = (Expression<String>) expr[1];
         }
@@ -68,7 +66,7 @@ public class EffCreateFileDir extends AsyncEffect {
 
     @Override
     protected void executeAsync(Event e) {
-        Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
+        Path[] pathsList = paths.getArray(e);
         String[] currentContent = content != null ? content.getArray(e) : new String[]{""};
         for (Path path : pathsList) {
             try {

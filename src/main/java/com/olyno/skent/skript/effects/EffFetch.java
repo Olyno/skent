@@ -1,9 +1,12 @@
-package com.olyno.skent.skript.expressions;
+package com.olyno.skent.skript.effects;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import com.olyno.skent.skript.expressions.ExprFetchedUrlContent;
+import com.olyno.skent.util.skript.AsyncEffect;
 
 import org.bukkit.event.Event;
 
@@ -13,47 +16,44 @@ import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-@Name("Content from url")
-@Description("Returns the content of a url.")
+@Name("Fetch Url")
+@Description("Fetch an url asynchronously. Able you to get an huge content and store it in a file later.")
 @Examples({
-    "command content:\n" +
+    "command fetch:\n" +
         "\ttrigger:\n" +
-        "\t\tset {_content} to content from url \"https://raw.githubusercontent.com/SkriptLang/Skript/master/README.md\"\n" +
-        "\t\tbroadcast \"Yep, it's the README of Skript's github:\"\n" +
-        "\t\tbroadcast {_content}"
+        "\t\tfetch url \"https://raw.githubusercontent.com/SkriptLang/Skript/master/README.md\":\n" +
+        "\t\t\tbroadcast fetched url content"
 })
 @Since("1.0")
 
-public class ExprContentFromURL extends SimpleExpression<String> {
+public class EffFetch extends AsyncEffect {
 
     static {
-        Skript.registerExpression(ExprContentFromURL.class, String.class, ExpressionType.SIMPLE,
-            "[the] content from url %string%"
+        registerAsyncEffect(EffFetch.class,
+            "fetch (url|link) %string%"
         );
     }
 
-    private Expression<String> url;
+    private Expression<String> link;
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
-        url = (Expression<String>) expr[0];
+    protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+        link = (Expression<String>) expr[0];
         return true;
     }
 
     @Override
-    protected String[] get(Event e) {
+    protected void executeAsync(Event e) {
+        String url = link.getSingle(e);
         try {
-            return new String[]{readToString(url.getSingle(e))};
+            ExprFetchedUrlContent.content = readToString(url);
         } catch (IOException ex) {
             Skript.exception(ex);
         }
-        return new String[0];
     }
 
     private String readToString(String targetURL) throws IOException {
@@ -71,18 +71,8 @@ public class ExprContentFromURL extends SimpleExpression<String> {
     }
 
     @Override
-    public boolean isSingle() {
-        return true;
-    }
-
-    @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
-    }
-
-    @Override
     public String toString(Event e, boolean debug) {
-        return "content from " + url.toString(e, debug);
+        return "fetch url " + link.toString(e, debug);
     }
-    
+
 }

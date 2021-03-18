@@ -1,7 +1,7 @@
 author: Olyno
 addon_name: Skent
 steps:
-  3.0.0:
+  '3.0.0':
     - find: move (.+) with replace
       result: move $1 replacing existing ones
     - find: rename (.+) with replace
@@ -10,7 +10,9 @@ steps:
       result: "file executed:"
     - find: "dir(ector(ies|y))? download(.+)"
       result: "file download$3"
-  2.0:
+    - find: (\s+|\t+)(.+)content from url \"(.+)\"(.+)?
+      result: "$1fetch url \"$3\":\n$1\t$2fetched url content"
+  '2.0':
     - find: (the )?((file(s)?|dir(ector(y|ies))?)) \"
       result: $3 path \"
     - find: "(is|are) hidden:"

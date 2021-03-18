@@ -140,7 +140,11 @@ public class ExprLine extends SimpleExpression<String> {
                         break;
 
                     case DELETE:
-                        lines.remove(lineToChange);
+                        if (lineToChange < 0 && line == null) {
+                            lines.clear();
+                        } else {
+                            lines.remove(lineToChange);
+                        }
                         break;
                     
                     default:

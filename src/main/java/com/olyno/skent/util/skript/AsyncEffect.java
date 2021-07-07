@@ -37,6 +37,9 @@ public abstract class AsyncEffect extends EffectSection implements Runnable {
     protected void execute(Event e) {
         this.event = e;
         localVars = Variables.removeLocals(e);
+        if (localVars != null) {
+            Variables.setLocalVariables(e, localVars);
+        }
         Thread effect = new Thread(this);
         effect.setName(this.toString());
         effect.start();
@@ -51,7 +54,6 @@ public abstract class AsyncEffect extends EffectSection implements Runnable {
         if (this.needExecuteCode) {
             this.runSection(this.event);
         }
-        Variables.removeLocals(this.event);
     }
     
 }

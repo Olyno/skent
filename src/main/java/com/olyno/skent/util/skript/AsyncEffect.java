@@ -54,7 +54,6 @@ public abstract class AsyncEffect extends EffectSection implements Runnable {
         if (this.needExecuteCode) {
             this.runSection(this.event);
         }
-        Variables.removeLocals(this.event);
     }
     
 }

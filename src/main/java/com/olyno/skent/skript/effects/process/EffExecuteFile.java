@@ -1,8 +1,12 @@
 package com.olyno.skent.skript.effects.process;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.olyno.skent.skript.events.bukkit.ExecuteCompletedEvent;
 import com.olyno.skent.skript.events.bukkit.ExecuteEvent;
@@ -41,18 +45,24 @@ public class EffExecuteFile extends AsyncEffect {
 
     static {
         registerAsyncEffect(EffExecuteFile.class,
-            "(execute|run|start) %paths%"
+            "(execute|run|start) %paths% [with arg[ument][s] %-strings% [and]] [with env[ironment file[s]] %-path% [and]] [(1¦with (logs|output))]"
         );
     }
 
+    public static Process lastProcess;
+
     private Expression<Path> paths;
-    private boolean isSingle;
+    private Expression<String> argsExpression;
+    private Expression<Path> envFileExpression;
+    private boolean withLogs;
 
     @Override
     @SuppressWarnings("unchecked")
     protected boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         paths = (Expression<Path>) expr[0];
-        isSingle = paths.getSource().isSingle();
+        argsExpression = (Expression<String>) expr[1];
+        envFileExpression = (Expression<Path>) expr[2];
+        withLogs = parseResult.mark == 1;
         return true;
     }
 
@@ -62,11 +72,28 @@ public class EffExecuteFile extends AsyncEffect {
         for (Path path : pathsList) {
             if (Files.exists(path)) {
                 try {
-                    Runtime runTime = Runtime.getRuntime();
-                    Process process = runTime.exec(path.toString());
-                    new ExecuteEvent(path, process);
-                    if (process.waitFor() >= 0) {
-                        new ExecuteCompletedEvent(path, process);
+                    ArrayList<String> command = new ArrayList<String>();
+                    command.add(path.toString());
+                    if (argsExpression != null) {
+                        String[] arguments = argsExpression.getArray(e);
+                        command.addAll(Arrays.asList(arguments));
+                    }
+                    ProcessBuilder process = new ProcessBuilder(command);
+                    lastProcess = process.start();
+                    if (withLogs) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(lastProcess.getInputStream()));
+                        String line = null;
+                        try {
+                            while ( (line = reader.readLine()) != null) {
+                                System.out.println(line);
+                            }
+                        } catch (IOException ex) {
+                            Skript.exception(ex);
+                        }
+                    }
+                    new ExecuteEvent(path, lastProcess);
+                    if (lastProcess.waitFor() >= 0) {
+                        new ExecuteCompletedEvent(path, lastProcess);
                     }
                 } catch (IOException | InterruptedException ex) {
                     ex.printStackTrace();

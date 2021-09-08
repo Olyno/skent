@@ -1,6 +1,9 @@
 package com.olyno.skent.skript.expressions.process;
 
+import java.util.ArrayList;
 import java.util.Optional;
+
+import com.olyno.skent.skript.effects.process.EffExecuteFile;
 
 import org.bukkit.event.Event;
 
@@ -15,12 +18,11 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-@Name("Process PID")
-@Description("Returns the pid of a process.")
+@Name("Process")
+@Description("Returns the process from its PID or the last started one.")
 @Examples({
-    "on file executed:\n" +
-        "\tset {_pid} to pid of event-process\n" +
-        "\tbroadcast \"Here is the pid of the running process: %{_pid}%\""
+    "set {_process} to process with pid \"65632\"\n" +
+    "broadcast \"Here is the pid of the running process: %pid of {_process}%\""
 })
 @Since("2.2.0")
 
@@ -28,7 +30,8 @@ public class ExprProcessWithPid extends SimpleExpression<Process> {
 
     static {
         Skript.registerExpression(ExprProcessWithPid.class, Process.class, ExpressionType.SIMPLE,
-            "process with pid %string%"
+            "process with pid[s] %strings%",
+            "last [started] process"
         );
     }
 
@@ -37,19 +40,29 @@ public class ExprProcessWithPid extends SimpleExpression<Process> {
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
-        pid = (Expression<String>) exprs[0];
+        if (matchedPattern == 0) {
+            pid = (Expression<String>) exprs[0];
+        }
         return true;
     }
 
     @Override
     protected Process[] get(Event e) {
-        Optional<ProcessHandle> process = ProcessHandle.of(Long.parseLong(pid.getSingle(e)));
-        return new Process[]{ (Process) process.map(p -> p).orElse(null) };
+        if (pid == null) {
+            return new Process[] { EffExecuteFile.lastProcess };
+        }
+        String[] pids = pid.getArray(e);
+        ArrayList<Process> processes = new ArrayList<>();
+        for (String pid : pids) {
+            Optional<ProcessHandle> process = ProcessHandle.of(Long.parseLong(pid));
+            processes.add((Process) process.orElse(null));
+        }
+        return processes.toArray(new Process[0]);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return pid == null || pid.isSingle();
     }
 
     @Override
@@ -59,7 +72,7 @@ public class ExprProcessWithPid extends SimpleExpression<Process> {
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "process with pid " + pid.toString(e, debug);
+        return pid == null ? "last process" : "process with pid " + pid.toString(e, debug);
     }
     
 }

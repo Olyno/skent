@@ -1,12 +1,12 @@
 package com.olyno.skent.skript.effects.process;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.olyno.skent.skript.events.bukkit.ExecuteCompletedEvent;
 import com.olyno.skent.skript.events.bukkit.ExecuteEvent;
@@ -22,6 +22,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvEntry;
 
 @Name("Run/Execute File")
 @Description("Runs/Executes a file.")
@@ -45,7 +47,7 @@ public class EffExecuteFile extends AsyncEffect {
 
     static {
         registerAsyncEffect(EffExecuteFile.class,
-            "(execute|run|start) %paths% [with arg[ument][s] %-strings% [and]] [with env[ironment file[s]] %-path% [and]] [(1¦with (logs|output))]"
+            "(execute|run|start) %paths% [with arg[ument][s] %-strings% [and]] [with env[ironment file[s]] %-paths% [and]] [(1¦with (logs|output))]"
         );
     }
 
@@ -69,33 +71,42 @@ public class EffExecuteFile extends AsyncEffect {
     @Override
     protected void executeAsync(Event e) {
         Path[] pathsList = paths.getArray(e);
+        String[] arguments = argsExpression != null ? argsExpression.getArray(e) : new String[0];
+        Path[] envFiles = envFileExpression != null ? envFileExpression.getArray(e) : new Path[0];
         for (Path path : pathsList) {
             if (Files.exists(path)) {
                 try {
                     ArrayList<String> command = new ArrayList<String>();
                     command.add(path.toString());
-                    if (argsExpression != null) {
-                        String[] arguments = argsExpression.getArray(e);
+                    if (arguments.length > 0) {
                         command.addAll(Arrays.asList(arguments));
                     }
                     ProcessBuilder process = new ProcessBuilder(command);
-                    lastProcess = process.start();
-                    if (withLogs) {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(lastProcess.getInputStream()));
-                        String line = null;
-                        try {
-                            while ( (line = reader.readLine()) != null) {
-                                System.out.println(line);
+                    if (envFiles.length > 0) {
+                        for (Path envFile : envFiles) {
+                            if (Files.exists(envFile)) {
+                                HashMap<String, String> envMap = new HashMap<String, String>();
+                                Dotenv dotenv = Dotenv.configure()
+                                    .directory(envFile.getParent().toAbsolutePath().toString())
+                                    .filename(envFile.getFileName().toString())
+                                    .load();
+                                for (DotenvEntry entry : dotenv.entries()) {
+                                    envMap.put(entry.getKey(), entry.getValue());
+                                }
+                                process.environment().putAll(envMap);
                             }
-                        } catch (IOException ex) {
-                            Skript.exception(ex);
                         }
                     }
-                    new ExecuteEvent(path, lastProcess);
-                    if (lastProcess.waitFor() >= 0) {
-                        new ExecuteCompletedEvent(path, lastProcess);
+                    if (withLogs) {
+                        process.redirectErrorStream(true);
+                        process.redirectOutput(Redirect.INHERIT);
                     }
-                } catch (IOException | InterruptedException ex) {
+                    lastProcess = process.start();
+                    lastProcess.onExit().thenRun(() -> {
+                        new ExecuteCompletedEvent(path, lastProcess);
+                    });
+                    new ExecuteEvent(path, lastProcess);
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             } else {
@@ -106,7 +117,10 @@ public class EffExecuteFile extends AsyncEffect {
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "execute " + paths.toString(e, debug);
+        return "execute " + paths.toString(e, debug)
+            + (argsExpression != null ? " with arguments " + argsExpression.toString(e, debug) : "")
+            + (envFileExpression != null ? " with environment file " + envFileExpression.toString(e, debug) : "")
+            + (withLogs ? " with logs" : "");
     }
 
 }

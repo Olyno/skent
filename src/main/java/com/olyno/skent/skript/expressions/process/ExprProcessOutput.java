@@ -24,7 +24,7 @@ public class ExprProcessOutput extends SimplePropertyExpression<Process, String>
 
     static {
         register(ExprProcessOutput.class, String.class,
-            "output[s]", "processes"
+            "(output|log)[s]", "processes"
         );
     }
 

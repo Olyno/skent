@@ -102,9 +102,7 @@ public class ExprLine extends SimpleExpression<String> {
             try {
                 List<String> lines = Files.readAllLines(currentPath, StandardCharsets.UTF_8);
                 int lineToChange = theLine - 1;
-                if (lineToChange > lines.size()) {
-                    return;
-                }
+                if (lineToChange > lines.size() || lineToChange < 0) return;
 
                 ArrayList<String> changes = new ArrayList<String>();
                 if (delta != null) {
@@ -112,43 +110,47 @@ public class ExprLine extends SimpleExpression<String> {
                         changes.add((String) o);
                     }
                 }
-    
-                switch (mode) {
-    
-                    case SET:
-                        if (lineToChange < 0 && line == null) {
-                            lines.replaceAll(value -> String.join("", changes));
-                        } else {
-                            lines.set(lineToChange, String.join("", changes));
-                        }
-                        break;
-    
-                    case ADD:
-                        if (lineToChange < 0 && line == null) {
-                            lines.replaceAll(value -> value + String.join("", changes));
-                        } else {
-                            lines.set(lineToChange, lines.get(lineToChange) + String.join("", changes));
-                        }
-                        break;
-    
-                    case REMOVE:
-                        if (lineToChange < 0 && line == null) {
-                            lines.replaceAll(value -> value.replaceAll(String.join("|", changes), ""));
-                        } else {
-                            lines.set(lineToChange, lines.get(lineToChange).replaceAll(String.join("|", changes), ""));
-                        }
-                        break;
 
-                    case DELETE:
-                        if (lineToChange < 0 && line == null) {
-                            lines.clear();
-                        } else {
-                            lines.remove(lineToChange);
-                        }
-                        break;
-                    
-                    default:
-                        break;
+                if (lineToChange == 0 && lines.size() == 0 && (mode == ChangeMode.ADD || mode == ChangeMode.SET)) {
+                    lines.add(String.join("", changes));
+                } else {
+                    switch (mode) {
+
+                        case SET:
+                            if (lineToChange < 0 && line == null) {
+                                lines.replaceAll(value -> String.join("", changes));
+                            } else {
+                                lines.set(lineToChange, String.join("", changes));
+                            }
+                            break;
+        
+                        case ADD:
+                            if (lineToChange < 0 && line == null) {
+                                lines.replaceAll(value -> value + String.join("", changes));
+                            } else {
+                                lines.set(lineToChange, lines.get(lineToChange) + String.join("", changes));
+                            }
+                            break;
+        
+                        case REMOVE:
+                            if (lineToChange < 0 && line == null) {
+                                lines.replaceAll(value -> value.replaceAll(String.join("|", changes), ""));
+                            } else {
+                                lines.set(lineToChange, lines.get(lineToChange).replaceAll(String.join("|", changes), ""));
+                            }
+                            break;
+
+                        case DELETE:
+                            if (lineToChange < 0 && line == null) {
+                                lines.clear();
+                            } else {
+                                lines.remove(lineToChange);
+                            }
+                            break;
+                        
+                        default:
+                            break;
+                    }
                 }
     
                 Files.write(currentPath, lines, StandardCharsets.UTF_8);

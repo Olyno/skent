@@ -1,14 +1,11 @@
 package com.olyno.skent;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.olyno.skent.util.PackageLoader;
+import com.olyno.skriptmigrate.SkriptMigrate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -68,17 +65,7 @@ public class Skent extends JavaPlugin {
 
 		// Setup migrations
 		if (classExist("com.olyno.skriptmigrate.SkriptMigrate")) {
-			Path skentMigrationsFile = Paths.get("plugins/Skent/migrations.yml");
-			Path skentMigrationsFileFinal = Paths.get("plugins/SkriptMigrate/migrations/skent.yml");
-			saveResource("migrations.yml", true);
-			try {
-				Files.copy(skentMigrationsFile, skentMigrationsFileFinal);
-			} catch (IOException ex) {
-				if (ex instanceof FileAlreadyExistsException) {
-					return;
-				}
-				ex.printStackTrace();
-			}
+			SkriptMigrate.load(this);
 		}
 
 	}

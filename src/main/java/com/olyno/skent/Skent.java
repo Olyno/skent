@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.olyno.skent.util.PackageLoader;
-import com.olyno.skriptmigrate.SkriptMigrate;
-
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.olyno.skent.util.PackageLoader;
+import com.olyno.skriptmigrate.SkriptMigrate;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -17,6 +18,7 @@ import ch.njol.skript.SkriptAddon;
 public class Skent extends JavaPlugin {
 
     public static Skent instance;
+	public static FileConfiguration config;
 	SkriptAddon addon;
 
 	public void onEnable() {
@@ -68,6 +70,11 @@ public class Skent extends JavaPlugin {
 			SkriptMigrate.load(this);
 		}
 
+		if (!getDataFolder().exists()) {
+			saveDefaultConfig();
+		}
+
+		config = getConfig();
 	}
 
 	private boolean classExist(String clazz) {

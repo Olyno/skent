@@ -34,12 +34,12 @@ import io.github.cdimascio.dotenv.DotenvEntry;
         "\t\tbroadcast \"File executed! I'm now a hacker!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" +
-    "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
+    "# use the keyword \"sync\" before.\n" +
+    "# The code after this effect section will be executed when the effect has finished to be executed.\n\n" +
     "command execute:\n" +
         "\ttrigger:\n" +
-        "\t\texecute file path \"plugins/myAwesomeBat.bat\":\n" +
-        "\t\t\tbroadcast \"File executed! I'm now a hacker!\""
+        "\t\tsync execute file path \"plugins/myAwesomeBat.bat\"\n" +
+        "\t\tbroadcast \"File executed! I'm now a hacker!\""
 })
 @Since("1.0")
 

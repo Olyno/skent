@@ -36,12 +36,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Copied!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" + 
+    "# use the keyword \"sync\" before.\n" + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command copy:\n" +
         "\ttrigger:\n" +
-        "\t\tcopy file path \"plugins/Skript/scrips/MyAwesomeScript.sk\" to file path \"plugins/Skript/scrips/MyAwesomeScriptCopy.sk\":\n" +
-        "\t\t\tbroadcast \"Copied!\""
+        "\t\tsync copy file path \"plugins/Skript/scrips/MyAwesomeScript.sk\" to file path \"plugins/Skript/scrips/MyAwesomeScriptCopy.sk\"\n" +
+        "\t\tbroadcast \"Copied!\""
 })
 @Since("1.0")
 

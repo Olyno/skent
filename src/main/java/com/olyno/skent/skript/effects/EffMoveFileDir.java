@@ -31,12 +31,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Got a new config!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect." + 
+    "# use the keyword \"sync\" before." + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command move:\n" +
         "\ttrigger:\n" +
-        "\t\tmove file path \"plugins/Skript/config.sk\" to file path \"plugins/config.sk\":\n" +
-        "\t\t\tbroadcast \"Got a new config!\""  
+        "\t\tmove file path \"plugins/Skript/config.sk\" to file path \"plugins/config.sk\"\n" +
+        "\t\tbroadcast \"Got a new config!\""  
 })
 @Since("1.0")
 

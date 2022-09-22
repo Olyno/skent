@@ -30,13 +30,13 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Of course I'm the creator!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" + 
+    "# use the keyword \"sync\" before.\n" + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command insert:\n" +
         "\ttrigger:\n" +
-        "\t\tcreate file path \"plugins/Skript/scripts/test1.txt\" with text \"Hey\", \"I'm\" and \"nice to meet you!\":\n" +
-        "\t\t\tinsert \"the creator\" at line 2 of file path \"plugins/Skript/scripts/test1.txt\"\n" +
-        "\t\t\tbroadcast \"Of course I'm the creator!\""
+        "\t\tsync create file path \"plugins/Skript/scripts/test1.txt\" with text \"Hey\", \"I'm\" and \"nice to meet you!\"\n" +
+        "\t\tinsert \"the creator\" at line 2 of file path \"plugins/Skript/scripts/test1.txt\"\n" +
+        "\t\tbroadcast \"Of course I'm the creator!\""
 })
 @Since("1.0")
 

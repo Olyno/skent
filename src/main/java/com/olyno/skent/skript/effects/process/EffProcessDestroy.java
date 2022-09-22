@@ -21,12 +21,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Killed!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" + 
-    "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
+    "# use the keyword \"sync\" before.\n" +
+    "# The code after this effect section will be executed when the effect has finished to be executed.\n\n" +
     "command killProcess:\n" +
         "\ttrigger:\n" +
-        "\t\tkill process with pid \"55412\":\n" +
-        "\t\t\tbroadcast \"Killed!\""
+        "\t\tsync kill process with pid \"55412\"\n" +
+        "\t\tbroadcast \"Killed!\""
 })
 @Since("1.0")
 

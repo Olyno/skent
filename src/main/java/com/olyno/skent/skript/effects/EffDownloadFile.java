@@ -31,12 +31,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Skent downloaded!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" + 
+    "# use the keyword \"sync\" before.\n" + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command download:\n" +
         "\ttrigger:\n" +
-        "\t\tdownload from url \"https://github.com/Olyno/skent/releases/latest/download/skent-all.jar\" to file path \"plugins/Skent.jar\":\n" +
-        "\t\t\tbroadcast \"Skent downloaded!\""
+        "\t\tdownload from url \"https://github.com/Olyno/skent/releases/latest/download/skent-all.jar\" to file path \"plugins/Skent.jar\"\n" +
+        "\t\tbroadcast \"Skent downloaded!\""
 })
 @Since("1.0")
 

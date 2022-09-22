@@ -31,13 +31,13 @@ import ch.njol.util.Kleenean;
 		"\t\tbroadcast \"The text has been added!\"",
 
 	"# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-	"# use this effect as a section effect.\n" +
+    "# use the keyword \"sync\" before.\n" +
 	"# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
 	"command append:\n" +
 		"\ttrigger:\n" +
-		"\t\tcreate file path \"plugins/Skript/scripts/test1.txt\" with \"My name is\":\n" +
-		"\t\t\tappend \"secret\" to file path \"plugins/Skript/scripts/test1.txt\"\n" +
-		"\t\t\tbroadcast \"The text has been added!\""
+		"\t\tsync create file path \"plugins/Skript/scripts/test1.txt\" with \"My name is\"\n" +
+		"\t\tappend \"secret\" to file path \"plugins/Skript/scripts/test1.txt\"\n" +
+		"\t\tbroadcast \"The text has been added!\""
 })
 @Since("1.0")
 

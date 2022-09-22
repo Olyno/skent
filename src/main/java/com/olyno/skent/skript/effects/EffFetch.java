@@ -24,8 +24,8 @@ import ch.njol.util.Kleenean;
 @Examples({
     "command fetch:\n" +
         "\ttrigger:\n" +
-        "\t\tfetch url \"https://raw.githubusercontent.com/SkriptLang/Skript/master/README.md\":\n" +
-        "\t\t\tbroadcast fetched url content"
+        "\t\tfetch url \"https://raw.githubusercontent.com/SkriptLang/Skript/master/README.md\"\n" +
+        "\t\tbroadcast fetched url content"
 })
 @Since("1.0")
 

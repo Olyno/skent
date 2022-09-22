@@ -29,12 +29,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Now my file is secret!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect." + 
+    "# use the keyword \"sync\" before." + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command rename:\n" +
         "\ttrigger:\n" +
-        "\t\trename file path \"plugins/Skript/scripts/test1.txt\" to \"secret.txt\":\n" +
-        "\t\t\tbroadcast \"Now my file is secret!\"",
+        "\t\trename file path \"plugins/Skript/scripts/test1.txt\" to \"secret.txt\"\n" +
+        "\t\tbroadcast \"Now my file is secret!\"",
 })
 @Since("1.0")
 

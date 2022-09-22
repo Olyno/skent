@@ -31,12 +31,12 @@ import net.lingala.zip4j.exception.ZipException;
         "\t\tbroadcast \"Nice I retrieved my backup!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect." + 
+    "# use the keyword \"sync\" before." + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command unzip:\n" +
         "\ttrigger:\n" +
-        "\t\tunzip all files in file path \"plugins/Skript/scripts.zip\" to dir path \"plugins/Skript\":\n" +
-        "\t\t\tbroadcast \"Nice I retrieved my backup!\""
+        "\t\tunzip all files in file path \"plugins/Skript/scripts.zip\" to dir path \"plugins/Skript\"\n" +
+        "\t\tbroadcast \"Nice I retrieved my backup!\""
 })
 @Since("1.0")
 

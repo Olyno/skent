@@ -30,12 +30,12 @@ import ch.njol.util.Kleenean;
         "\t\tbroadcast \"Oh no, my awesome script!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect.\n" +
+    "# use the keyword \"sync\" before.\n" +
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command delete:\n" +
         "\ttrigger:\n" +
-        "\t\tdelete file path \"plugins/Skript/scripts/myAwesomeScript.sk\":\n" +
-        "\t\t\tbroadcast \"Oh no, my awesome script!\""
+        "\t\tsync delete file path \"plugins/Skript/scripts/myAwesomeScript.sk\"\n" +
+        "\t\tbroadcast \"Oh no, my awesome script!\""
 })
 @Since("1.0")
 

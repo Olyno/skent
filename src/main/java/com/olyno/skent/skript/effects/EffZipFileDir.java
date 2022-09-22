@@ -32,12 +32,12 @@ import net.lingala.zip4j.util.Zip4jConstants;
         "\t\tbroadcast \"Nice I did a backup!\"",
 
     "# If you need to wait the end of the effect before execute a part of your code, you can\n" +
-    "# use this effect as a section effect." + 
+    "# use the keyword \"sync\" before." + 
     "# The code after this effect section will be executed when the effect section has finished to be executed.\n\n" +
     "command zip:\n" +
         "\ttrigger:\n" +
-        "\t\tzip dir path \"plugins/Skript/scripts\" to dir path \"plugins/Skript/scripts.zip\":\n" +
-        "\t\t\tbroadcast \"Nice I did a backup!\""
+        "\t\tzip dir path \"plugins/Skript/scripts\" to dir path \"plugins/Skript/scripts.zip\"\n" +
+        "\t\tbroadcast \"Nice I did a backup!\""
 })
 @Since("1.0")
 

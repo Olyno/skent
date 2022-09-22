@@ -20,11 +20,6 @@ public class Types {
 			.parser(new Parser<Path>() {
 
 				@Override
-				public String getVariableNamePattern() {
-					return ".+";
-				}
-
-				@Override
 				public Path parse(String path, ParseContext arg1) {
 					// Can't parse, else will make an error (parse << file "x" >> instead of just << "x" >>)
 					return null;
@@ -54,11 +49,6 @@ public class Types {
 			.description("A process running. Can be get from execute effect.")
 			.since("2.2.0")
 			.parser(new Parser<Process>() {
-
-				@Override
-				public String getVariableNamePattern() {
-					return ".+";
-				}
 
 				@Override
 				public Process parse(String process, ParseContext arg1) {

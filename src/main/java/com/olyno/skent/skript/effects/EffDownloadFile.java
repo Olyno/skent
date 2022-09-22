@@ -8,11 +8,11 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.util.concurrent.CompletionException;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.ChangeEvent;
 import com.olyno.skent.skript.events.bukkit.DownloadEvent;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

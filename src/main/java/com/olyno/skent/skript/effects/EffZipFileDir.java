@@ -4,11 +4,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.ChangeEvent;
 import com.olyno.skent.skript.events.bukkit.ZipEvent;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

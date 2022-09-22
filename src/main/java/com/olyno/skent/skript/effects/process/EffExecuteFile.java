@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.ExecuteCompletedEvent;
 import com.olyno.skent.skript.events.bukkit.ExecuteEvent;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

@@ -1,8 +1,8 @@
 package com.olyno.skent.skript.effects.process;
 
-import com.olyno.skent.util.skript.AsyncEffect;
-
 import org.bukkit.event.Event;
+
+import com.olyno.skent.util.skript.AsyncEffect;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

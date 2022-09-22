@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.expressions.ExprFetchedUrlContent;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

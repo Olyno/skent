@@ -10,11 +10,11 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.ChangeEvent;
 import com.olyno.skent.skript.events.bukkit.CopyEvent;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

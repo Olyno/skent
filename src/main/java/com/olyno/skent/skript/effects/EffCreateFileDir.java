@@ -8,12 +8,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.ChangeEvent;
 import com.olyno.skent.skript.events.bukkit.CreateEvent;
 import com.olyno.skent.util.Utils;
 import com.olyno.skent.util.skript.AsyncEffect;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

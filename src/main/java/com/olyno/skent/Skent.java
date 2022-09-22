@@ -32,31 +32,6 @@ public class Skent extends JavaPlugin {
 			e.printStackTrace();
 		}
 
-		// Register Metrics
-		Metrics metrics = new Metrics(this);
-		metrics.addCustomChart(new Metrics.SimplePie("used_language", () ->
-				getConfig().getString("language", "en")));
-		metrics.addCustomChart(new Metrics.SimplePie("skript_version", () ->
-				Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()));
-		metrics.addCustomChart(new Metrics.SimplePie("skent_version", () ->
-				this.getDescription().getVersion()));
-		metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
-			Map<String, Map<String, Integer>> map = new HashMap<>();
-			String javaVersion = System.getProperty("java.version");
-			Map<String, Integer> entry = new HashMap<>();
-			entry.put(javaVersion, 1);
-			if (javaVersion.startsWith("1.7")) {
-				map.put("Java 1.7", entry);
-			} else if (javaVersion.startsWith("1.8")) {
-				map.put("Java 1.8", entry);
-			} else if (javaVersion.startsWith("1.9")) {
-				map.put("Java 1.9", entry);
-			} else {
-				map.put("Other", entry);
-			}
-			return map;
-		}));
-
 		// Register events
 		new PackageLoader<Listener>("com.olyno.skent.skript.events.bukkit", "register events").getList()
             .thenAccept(events -> {
@@ -75,6 +50,33 @@ public class Skent extends JavaPlugin {
 		}
 
 		config = getConfig();
+
+		// Register Metrics
+		Metrics metrics = new Metrics(this);
+		metrics.addCustomChart(new Metrics.SimplePie("used_language", () ->
+				getConfig().getString("language", "en")));
+		metrics.addCustomChart(new Metrics.SimplePie("skript_version", () ->
+				Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()));
+		metrics.addCustomChart(new Metrics.SimplePie("skent_version", () ->
+			this.getDescription().getVersion()));
+		metrics.addCustomChart(new Metrics.SimplePie("is_default_async", () ->
+			config.getBoolean("is_default_async") + ""));
+		metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+			Map<String, Map<String, Integer>> map = new HashMap<>();
+			String javaVersion = System.getProperty("java.version");
+			Map<String, Integer> entry = new HashMap<>();
+			entry.put(javaVersion, 1);
+			if (javaVersion.startsWith("1.7")) {
+				map.put("Java 1.7", entry);
+			} else if (javaVersion.startsWith("1.8")) {
+				map.put("Java 1.8", entry);
+			} else if (javaVersion.startsWith("1.9")) {
+				map.put("Java 1.9", entry);
+			} else {
+				map.put("Other", entry);
+			}
+			return map;
+		}));
 	}
 
 	private boolean classExist(String clazz) {

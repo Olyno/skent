@@ -10,6 +10,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 
 public abstract class AsyncEffect extends Effect implements Runnable {
@@ -23,6 +24,8 @@ public abstract class AsyncEffect extends Effect implements Runnable {
     private Event event;
     private AsyncKeyword asyncKeyword;
     private boolean isDefaultAsync = Skent.config.getBoolean("is_default_async");
+
+    private Object variables;
 
     protected abstract void executeAsync(Event e);
     protected abstract boolean initAsync(Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult);
@@ -48,6 +51,7 @@ public abstract class AsyncEffect extends Effect implements Runnable {
         boolean isAsync = asyncKeyword.equals(AsyncKeyword.ASYNC)
             || (asyncKeyword.equals(AsyncKeyword.NONE) && isDefaultAsync);
         if (isAsync) {
+            variables = Variables.removeLocals(this.event);
             Thread effect = new Thread(this);
             effect.setName(this.toString());
             effect.start();
@@ -58,6 +62,9 @@ public abstract class AsyncEffect extends Effect implements Runnable {
 
     @Override
     public void run() {
+        if (variables != null) {
+            Variables.setLocalVariables(this.event, variables);
+        }
         executeAsync(this.event);
     }
   

@@ -8,10 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.bukkit.event.Event;
+
 import com.olyno.skent.skript.events.bukkit.WatchingEvent;
 import com.olyno.skent.util.skript.WatchType;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
@@ -114,10 +114,12 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     @Override
     public void unregister(Trigger t) {
         this.trigger = null;
-        try {
-            watcher.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (this.watcher != null) {
+            try {
+                this.watcher.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

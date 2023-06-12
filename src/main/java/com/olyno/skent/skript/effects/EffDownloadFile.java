@@ -60,7 +60,7 @@ public class EffDownloadFile extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         String currentUrl = url.getSingle(e);
         Path currentFile = file.getSingle(e);
         try {

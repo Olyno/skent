@@ -63,7 +63,7 @@ public class EffMoveFileDir extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] pathsList = paths.getArray(e);
         Path targetFile = target.getSingle(e);
         for (Path path : pathsList) {

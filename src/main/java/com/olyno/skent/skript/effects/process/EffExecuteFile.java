@@ -69,7 +69,7 @@ public class EffExecuteFile extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] pathsList = paths.getArray(e);
         String[] arguments = argsExpression != null ? argsExpression.getArray(e) : new String[0];
         Path[] envFiles = envFileExpression != null ? envFileExpression.getArray(e) : new Path[0];

@@ -47,7 +47,7 @@ public class EffFetch extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         String url = link.getSingle(e);
         try {
             ExprFetchedUrlContent.content = readToString(url);

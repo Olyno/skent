@@ -57,7 +57,7 @@ public class EffDeleteFileDir extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] pathList = paths.getArray(e);
         for (Path path : pathList) {
             if (Files.exists(path)) {

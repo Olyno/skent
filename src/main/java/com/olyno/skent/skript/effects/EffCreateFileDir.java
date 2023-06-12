@@ -65,7 +65,7 @@ public class EffCreateFileDir extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] pathsList = paths.getArray(e);
         String[] currentContent = content != null ? content.getArray(e) : new String[]{""};
         for (Path path : pathsList) {

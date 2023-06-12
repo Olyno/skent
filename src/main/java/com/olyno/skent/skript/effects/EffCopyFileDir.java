@@ -1,6 +1,7 @@
 package com.olyno.skent.skript.effects;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -65,7 +66,7 @@ public class EffCopyFileDir extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] sourceFiles = sources.getArray(e);
         Path targetFile = target.getSingle(e);
         try {
@@ -82,7 +83,7 @@ public class EffCopyFileDir extends AsyncEffect {
                     new ChangeEvent(targetFile);
                     new CopyEvent(sourceFile, targetFile);
                 } else {
-                    throw new IOException();
+                    throw new FileNotFoundException();
                 }
             }
         } catch (IOException ex) {

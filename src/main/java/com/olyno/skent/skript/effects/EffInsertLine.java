@@ -62,7 +62,7 @@ public class EffInsertLine extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path[] pathsList = paths.getArray(e);
         int theLine = line.getSingle(e).intValue();
         String currentContent = content.getSingle(e);

@@ -60,7 +60,7 @@ public class EffAppendFile extends AsyncEffect {
 	}
 
 	@Override
-	protected void executeAsync(Event e) {
+	protected void execute(Event e) {
 		Path[] pathsList = paths.getArray(e);
 		for (Path path : pathsList) {
 			if (Files.exists(path)) {

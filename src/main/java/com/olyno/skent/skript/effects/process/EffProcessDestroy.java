@@ -51,7 +51,7 @@ public class EffProcessDestroy extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Process[] processList = process.getArray(e);
         for (Process process : processList) {
             process.destroy();

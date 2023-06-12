@@ -76,7 +76,7 @@ public class EffUnzipFileDir extends AsyncEffect {
     }
 
     @Override
-    protected void executeAsync(Event e) {
+    protected void execute(Event e) {
         Path sourceFile = source.getSingle(e);
         Path targetFile = target.getSingle(e);
         String pass = password != null ? password.getSingle(e) : null;

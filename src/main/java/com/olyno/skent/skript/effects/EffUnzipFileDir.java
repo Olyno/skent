@@ -19,8 +19,7 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.ZipFile;
 
 @Name("Unzip File or Directory")
 @Description("Unzips files and/or directories.")
@@ -92,10 +91,10 @@ public class EffUnzipFileDir extends AsyncEffect {
     private void unzip(Path[] allFiles, Path src, Path dest, String pass) {
         try {
             if (!Files.exists(dest)) Files.createDirectory(dest);
-            ZipFile zipFile = new ZipFile(src.toString());
+            ZipFile zipFile = new ZipFile(src.toFile());
             if (zipFile.isEncrypted()) {
                 if (pass != null) {
-                    zipFile.setPassword(pass);
+                    zipFile.setPassword(pass.toCharArray());
                 }
             }
 
@@ -107,10 +106,12 @@ public class EffUnzipFileDir extends AsyncEffect {
                 }
             }
 
+            zipFile.close();
+
             new UnzipEvent(allFiles, src, dest, pass);
             new ChangeEvent(dest.getParent());
 
-        } catch (ZipException | IOException ex) {
+        } catch (IOException ex) {
             Skript.exception(ex);
         }
     }

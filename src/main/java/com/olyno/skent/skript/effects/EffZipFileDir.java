@@ -1,5 +1,6 @@
 package com.olyno.skent.skript.effects;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
@@ -18,10 +19,11 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
-import net.lingala.zip4j.util.Zip4jConstants;
+import net.lingala.zip4j.model.enums.AesKeyStrength;
+import net.lingala.zip4j.model.enums.CompressionMethod;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
 
 @Name("Zip File or Directory")
 @Description("Zips files and/or directories.")
@@ -83,30 +85,31 @@ public class EffZipFileDir extends AsyncEffect {
 
     private void zip(Path[] src, Path dest, String pass) {
         try {
-            ZipFile zipFile = new ZipFile(dest.toString());
+            ZipFile zipFile = new ZipFile(dest.toFile(), pass.toCharArray());
             ZipParameters parameters = new ZipParameters();
-            parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
-            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_ULTRA);
+            parameters.setCompressionMethod(CompressionMethod.DEFLATE);
 
             if (pass != null) {
                 parameters.setEncryptFiles(true);
-                parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_STANDARD);
-                parameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_128);
-                parameters.setPassword(pass);
+                parameters.setEncryptionMethod(EncryptionMethod.ZIP_STANDARD);
+                parameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
             }
 
             for (Path file : src) {
                 if (Files.exists(file)) {
                     if (Files.isDirectory(file)) {
-                        zipFile.addFolder(file.toString(), parameters);
+                        zipFile.addFolder(file.toFile(), parameters);
                     } else {
                         zipFile.addFile(file.toFile(), parameters);
                     }
                 }
             }
+
+            zipFile.close();
+
             new ZipEvent(src, dest, pass);
             new ChangeEvent(dest.getParent());
-        } catch (ZipException ex) {
+        } catch (IOException ex) {
             Skript.exception(ex);
         }
     }

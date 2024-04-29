@@ -4,5 +4,6 @@ public enum WatchType {
     CREATION,
     EDITION,
     DELETION,
+    OVERFLOW,
     ANY
 }

@@ -29,6 +29,7 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
             "[watch[ing] [for]] (file|dir[ectory]) creation[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (file|dir[ectory]) deletion[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
+            "[watch[ing] [for]] (file|dir[ectory]) overflow[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%",
             "[watch[ing] [for]] (any|every) (file|dir[ectory]) change[s] (at|for) [[the] (file[s]|dir[ector(y|ies)]|paths)] %strings%"
         )
             .description("When something changed in a path")
@@ -91,6 +92,11 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
                                 break;
                             case DELETE:
                                 if (type == WatchType.DELETION || type == WatchType.ANY) {
+                                    this.event.run(event.path());
+                                }
+                                break;
+                            case OVERFLOW:
+                                if (type == WatchType.OVERFLOW || type == WatchType.ANY) {
                                     this.event.run(event.path());
                                 }
                                 break;

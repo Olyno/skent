@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.bukkit.event.Event;
 
 import com.olyno.skent.skript.events.bukkit.WatchingEvent;
-import com.olyno.skent.util.skript.WatchType;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
@@ -20,6 +19,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import io.methvin.watcher.DirectoryChangeEvent.EventType;
 import io.methvin.watcher.DirectoryWatcher;
 
 public class EvtWatching extends SelfRegisteringSkriptEvent {
@@ -49,7 +49,8 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     }
 
     private String[] paths;
-    private WatchType type;
+    private boolean watchAll;
+    private EventType type;
 
     private DirectoryWatcher watcher;
     private Trigger trigger;
@@ -59,8 +60,10 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     @SuppressWarnings("unchecked")
     public boolean init(Literal<?>[] args, int matchedPattern, ParseResult parseResult) {
         paths = ((Literal<String>) args[0]).getArray();
-        if (matchedPattern < 3) {
-            type = WatchType.values()[matchedPattern];
+        if (matchedPattern < 4) {
+            type =  EventType.values()[matchedPattern];
+        } else {
+            watchAll = true;
         }
         return true;
     }
@@ -79,28 +82,11 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
                 .paths(directories)
                 .listener(event -> {
                     Path eventPath = event.path().toAbsolutePath();
+                    EventType eventType = event.eventType();
+                    
                     if (allPaths.contains(eventPath) || allPaths.contains(eventPath.getParent())) {
-                        switch (event.eventType()) {
-                            case CREATE:
-                                if (type == WatchType.CREATION || type == WatchType.ANY) {
-                                    this.event.run(event.path());
-                                }
-                                break;
-                            case MODIFY:
-                                if (type == WatchType.EDITION || type == WatchType.ANY) {
-                                    this.event.run(event.path());
-                                }
-                                break;
-                            case DELETE:
-                                if (type == WatchType.DELETION || type == WatchType.ANY) {
-                                    this.event.run(event.path());
-                                }
-                                break;
-                            case OVERFLOW:
-                                if (type == WatchType.OVERFLOW || type == WatchType.ANY) {
-                                    this.event.run(event.path());
-                                }
-                                break;
+                        if (watchAll || type == eventType) {
+                            this.event.run(event.path());
                         }
                     }
                 })

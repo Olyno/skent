@@ -25,7 +25,7 @@ dependencies {
 
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'io.methvin:directory-watcher:0.18.0'
-    implementation 'io.github.cdimascio:dotenv-java:2.3.2'
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
     implementation "com.coreoz:wisp:2.4.0"
     implementation "ch.eitchnet:cron:1.6.2"
 }

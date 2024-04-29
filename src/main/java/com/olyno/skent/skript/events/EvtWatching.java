@@ -68,7 +68,7 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     private void registerListener() {
         List<Path> allPaths = Arrays.asList(paths)
             .stream()
-            .map(path -> Paths.get(path))
+            .map(path -> Paths.get(path).toAbsolutePath())
             .collect(Collectors.toList());
         List<Path> directories = allPaths
             .stream()
@@ -78,7 +78,8 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
             this.watcher = DirectoryWatcher.builder()
                 .paths(directories)
                 .listener(event -> {
-                    if (allPaths.contains(event.path()) || allPaths.contains(event.path().getParent())) {
+                    Path eventPath = event.path().toAbsolutePath();
+                    if (allPaths.contains(eventPath) || allPaths.contains(eventPath.getParent())) {
                         switch (event.eventType()) {
                             case CREATE:
                                 if (type == WatchType.CREATION || type == WatchType.ANY) {

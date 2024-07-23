@@ -42,7 +42,6 @@ import net.lingala.zip4j.model.enums.EncryptionMethod;
         "\t\tbroadcast \"Nice I did a backup!\""
 })
 @Since("1.0")
-
 public class EffZipFileDir extends AsyncEffect {
 
     static {
@@ -74,18 +73,14 @@ public class EffZipFileDir extends AsyncEffect {
         Path[] pathsList = isSingle ? new Path[]{paths.getSingle(e)} : paths.getArray(e);
         Path targetFile = target.getSingle(e);
         String pass = password != null ? password.getSingle(e) : null;
-        if (Pattern.compile("\\.zip$").matcher(targetFile.toString()).find()) {
-            if (password != null && pass != null) {
-                zip(pathsList, targetFile, pass);
-            } else {
-                zip(pathsList, targetFile, null);
-            }
+
+        if (targetFile != null && Pattern.compile("\\.zip$").matcher(targetFile.toString()).find()) {
+            zip(pathsList, targetFile, pass);
         }
     }
 
     private void zip(Path[] src, Path dest, String pass) {
-        try {
-            ZipFile zipFile = new ZipFile(dest.toFile(), pass.toCharArray());
+        try (ZipFile zipFile = pass != null ? new ZipFile(dest.toFile(), pass.toCharArray()) : new ZipFile(dest.toFile())) {
             ZipParameters parameters = new ZipParameters();
             parameters.setCompressionMethod(CompressionMethod.DEFLATE);
 
@@ -105,10 +100,9 @@ public class EffZipFileDir extends AsyncEffect {
                 }
             }
 
-            zipFile.close();
-
             new ZipEvent(src, dest, pass);
             new ChangeEvent(dest.getParent());
+
         } catch (IOException ex) {
             Skript.exception(ex);
         }
@@ -118,5 +112,4 @@ public class EffZipFileDir extends AsyncEffect {
     public String toString(Event e, boolean debug) {
         return "zip " + paths.toString(e, debug) + " to " + target.toString(e, debug);
     }
-
 }

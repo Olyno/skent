@@ -7,15 +7,16 @@ plugins {
 group 'com.olyno.skent'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // Spigot
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' } // Spigot
+    maven { url 'https://repo.skriptlang.org/releases' } // Skript
     maven { url 'https://repo.destroystokyo.com/repository/maven-public/' } // Skript
-    maven { url 'https://jitpack.io' } // Skript and more
+    maven { url 'https://jitpack.io' } // Skript migrate
 }
 
 dependencies {

@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    compileOnly 'com.github.SkriptLang:Skript:2.8.7'
+    compileOnly 'com.github.SkriptLang:Skript:2.9.1'
     compileOnly 'com.github.Olyno:skript-migrate:1.1.0'
 
     implementation 'net.lingala.zip4j:zip4j:2.11.5'

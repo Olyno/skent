@@ -74,7 +74,7 @@ public class ExprContent extends SimpleExpression<String> {
             case SET:
             case ADD:
             case REMOVE:
-                return new Class[]{String.class};
+                return new Class[]{String[].class};
             default:
                 break;
         }

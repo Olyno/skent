@@ -20,14 +20,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    compileOnly 'com.github.SkriptLang:Skript:2.8.7'
+    compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
+    compileOnly 'com.github.SkriptLang:Skript:2.9.2'
     compileOnly 'com.github.Olyno:skript-migrate:1.1.0'
 
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'io.methvin:directory-watcher:0.18.0'
-    implementation 'io.github.cdimascio:dotenv-java:3.0.1'
-    implementation "com.coreoz:wisp:2.4.0"
+    implementation 'io.github.cdimascio:dotenv-java:3.0.2'
+    implementation "com.coreoz:wisp:2.5.0"
     implementation "ch.eitchnet:cron:1.6.2"
 }
 

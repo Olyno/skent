@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.CreateEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtCreate {
 
@@ -22,19 +21,8 @@ public class EvtCreate {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(CreateEvent.class, Path.class, new Getter<Path, CreateEvent>() {
-            @Override
-            public Path get(CreateEvent e) {
-                return e.getPath();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(CreateEvent.class, String.class, new Getter<String, CreateEvent>() {
-            @Override
-            public String get(CreateEvent e) {
-                return String.join("\n", e.getContent());
-            }
-        }, 0);
+        EventValues.registerEventValue(CreateEvent.class, Path.class, e -> e.getPath());
+        EventValues.registerEventValue(CreateEvent.class, String.class, e -> String.join("\n", e.getContent()));
 
     }
 }

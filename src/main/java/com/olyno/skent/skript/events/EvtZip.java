@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.ZipEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtZip {
 
@@ -22,19 +21,8 @@ public class EvtZip {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(ZipEvent.class, Path.class, new Getter<Path, ZipEvent>() {
-            @Override
-            public Path get(ZipEvent e) {
-                return e.getTarget();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(ZipEvent.class, String.class, new Getter<String, ZipEvent>() {
-            @Override
-            public String get(ZipEvent e) {
-                return e.getPassword();
-            }
-        }, 0);
+        EventValues.registerEventValue(ZipEvent.class, Path.class, e -> e.getTarget());
+        EventValues.registerEventValue(ZipEvent.class, String.class, e -> e.getPassword());
 
     }
 }

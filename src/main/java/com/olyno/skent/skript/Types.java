@@ -13,7 +13,7 @@ public class Types {
 	static {
 		Classes.registerClass(new ClassInfo<>(Path.class, "path")
 			.defaultExpression(new EventValueExpression<>(Path.class))
-			.user("path|file|dir(ectory)?")
+			.user("path")
 			.name("Path")
 			.description("The path type. Can be a file or a directory.")
 			.since("1.0")

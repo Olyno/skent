@@ -4,8 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.olyno.skent.util.Utils;
-import com.olyno.skent.util.skript.PriorityPropertyCondition;
 
+import ch.njol.skript.conditions.base.PropertyCondition;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
@@ -21,10 +21,10 @@ import ch.njol.skript.doc.Since;
 })
 @Since("1.0")
 
-public class CondFileIsFile extends PriorityPropertyCondition<Path> {
+public class CondFileIsFile extends PropertyCondition<Path> {
 
     static {
-        registerCondition(CondFileIsFile.class,
+        register(CondFileIsFile.class,
             "[a] file", "path"
         );
     }

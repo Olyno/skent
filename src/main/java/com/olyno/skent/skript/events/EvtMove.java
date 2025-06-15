@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.MoveEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtMove {
 
@@ -22,19 +21,8 @@ public class EvtMove {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(MoveEvent.class, Path.class, new Getter<Path, MoveEvent>() {
-            @Override
-            public Path get(MoveEvent e) {
-                return e.getSource();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(MoveEvent.class, Path.class, new Getter<Path, MoveEvent>() {
-            @Override
-            public Path get(MoveEvent e) {
-                return e.getTarget();
-            }
-        }, 0);
+        EventValues.registerEventValue(MoveEvent.class, Path.class, e -> e.getSource());
+        EventValues.registerEventValue(MoveEvent.class, Path.class, e -> e.getTarget());
 
     }
 }

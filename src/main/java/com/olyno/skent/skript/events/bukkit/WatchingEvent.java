@@ -17,10 +17,6 @@ public class WatchingEvent extends Event implements Listener {
 
     public WatchingEvent() { }
 
-    public WatchingEvent(Trigger trigger) {
-        this.trigger = trigger;
-    }
-
     public static HandlerList getHandlerList() {
         return handlers;
     }

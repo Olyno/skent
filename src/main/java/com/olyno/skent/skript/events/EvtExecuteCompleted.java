@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.ExecuteEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtExecuteCompleted {
 
@@ -22,19 +21,8 @@ public class EvtExecuteCompleted {
             )
             .since("2.2.0");
 
-        EventValues.registerEventValue(ExecuteEvent.class, Path.class, new Getter<Path, ExecuteEvent>() {
-            @Override
-            public Path get(ExecuteEvent e) {
-                return e.getPath();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(ExecuteEvent.class, Process.class, new Getter<Process, ExecuteEvent>() {
-            @Override
-            public Process get(ExecuteEvent e) {
-                return e.getProcess();
-            }
-        }, 0);
+        EventValues.registerEventValue(ExecuteEvent.class, Path.class, e -> e.getPath());
+        EventValues.registerEventValue(ExecuteEvent.class, Process.class, e -> e.getProcess());
 
     }
 }

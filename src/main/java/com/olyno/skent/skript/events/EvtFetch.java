@@ -5,7 +5,6 @@ import com.olyno.skent.skript.events.bukkit.FetchEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtFetch {
 
@@ -20,12 +19,7 @@ public class EvtFetch {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(FetchEvent.class, String.class, new Getter<String, FetchEvent>() {
-            @Override
-            public String get(FetchEvent e) {
-                return e.getLink();
-            }
-        }, 0);
+        EventValues.registerEventValue(FetchEvent.class, String.class, e -> e.getLink());
 
     }
 }

@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.RenameEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtRename {
 
@@ -22,19 +21,8 @@ public class EvtRename {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(RenameEvent.class, String.class, new Getter<String, RenameEvent>() {
-            @Override
-            public String get(RenameEvent e) {
-                return e.getNewName();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(RenameEvent.class, Path.class, new Getter<Path, RenameEvent>() {
-            @Override
-            public Path get(RenameEvent e) {
-                return e.getPath();
-            }
-        }, 0);
+        EventValues.registerEventValue(RenameEvent.class, String.class, e -> e.getNewName());
+        EventValues.registerEventValue(RenameEvent.class, Path.class, e -> e.getPath());
 
     }
 }

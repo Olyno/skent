@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.event.Event;
@@ -14,15 +15,13 @@ import com.olyno.skent.skript.events.bukkit.WatchingEvent;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
-import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
+import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 import io.methvin.watcher.DirectoryChangeEvent.EventType;
 import io.methvin.watcher.DirectoryWatcher;
 
-public class EvtWatching extends SelfRegisteringSkriptEvent {
+public class EvtWatching extends SkriptEvent {
 
     static {
         Skript.registerEvent("Watch File/Directory", EvtWatching.class, WatchingEvent.class,
@@ -39,13 +38,7 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
             )
             .since("2.1");
 
-        EventValues.registerEventValue(WatchingEvent.class, Path.class, new Getter<Path, WatchingEvent>() {
-            @Override
-            public Path get(WatchingEvent e) {
-                return e.getPath();
-            }
-        }, 0);
-
+        EventValues.registerEventValue(WatchingEvent.class, Path.class, e -> e.getPath());
     }
 
     private String[] paths;
@@ -53,7 +46,6 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     private EventType type;
 
     private DirectoryWatcher watcher;
-    private Trigger trigger;
     private WatchingEvent event;
 
     @Override
@@ -61,7 +53,7 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     public boolean init(Literal<?>[] args, int matchedPattern, ParseResult parseResult) {
         paths = ((Literal<String>) args[0]).getArray();
         if (matchedPattern < 4) {
-            type =  EventType.values()[matchedPattern];
+            type = EventType.values()[matchedPattern];
         } else {
             watchAll = true;
         }
@@ -69,17 +61,16 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     }
 
     private void registerListener() {
-        List<Path> allPaths = Arrays.asList(paths)
-            .stream()
-            .map(path -> Paths.get(path).toAbsolutePath())
-            .collect(Collectors.toList());
-        List<Path> directories = allPaths
-            .stream()
+        Set<Path> allPaths = Arrays.stream(paths)
+            .map(Paths::get)
+            .map(Path::toAbsolutePath)
+            .collect(Collectors.toSet());
+        Set<Path> directories = allPaths.stream()
             .map(path -> Files.isDirectory(path) ? path : path.getParent())
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
         try {
             this.watcher = DirectoryWatcher.builder()
-                .paths(directories)
+                .paths(new ArrayList<>(directories))
                 .listener(event -> {
                     Path eventPath = event.path().toAbsolutePath();
                     EventType eventType = event.eventType();
@@ -98,15 +89,19 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     }
 
     @Override
-    public void register(Trigger trigger) {
-        this.trigger = trigger;
-        this.event = new WatchingEvent(trigger);
-        registerListener();
+    public boolean check(Event event) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void unregister(Trigger t) {
-        this.trigger = null;
+    public boolean postLoad() {
+        this.event = new WatchingEvent();
+        registerListener();
+        return true;
+    }
+
+    @Override
+    public void unload() {
         if (this.watcher != null) {
             try {
                 this.watcher.close();
@@ -117,12 +112,9 @@ public class EvtWatching extends SelfRegisteringSkriptEvent {
     }
 
     @Override
-    public void unregisterAll() {
-    }
-
-    @Override
     public String toString(Event e, boolean debug) {
-        return "watch for " + type.name().toLowerCase() + " for paths " + paths.toString();
+        String pathList = Arrays.toString(paths);
+        String eventType = (watchAll ? "any" : type.name().toLowerCase());
+        return "watch for " + eventType + " for paths " + pathList;
     }
-    
 }

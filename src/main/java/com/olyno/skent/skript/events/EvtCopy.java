@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.CopyEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtCopy {
 
@@ -22,19 +21,8 @@ public class EvtCopy {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(CopyEvent.class, Path.class, new Getter<Path, CopyEvent>() {
-            @Override
-            public Path get(CopyEvent e) {
-                return e.getSource();
-            }
-        }, 0);
-
-        EventValues.registerEventValue(CopyEvent.class, Path.class, new Getter<Path, CopyEvent>() {
-            @Override
-            public Path get(CopyEvent e) {
-                return e.getTarget();
-            }
-        }, 0);
+        EventValues.registerEventValue(CopyEvent.class, Path.class, e -> e.getSource());
+        EventValues.registerEventValue(CopyEvent.class, Path.class, e -> e.getTarget());
 
     }
 }

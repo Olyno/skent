@@ -7,7 +7,6 @@ import com.olyno.skent.skript.events.bukkit.DeleteEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.Getter;
 
 public class EvtDelete {
 
@@ -22,12 +21,7 @@ public class EvtDelete {
             )
             .since("1.0");
 
-        EventValues.registerEventValue(DeleteEvent.class, Path.class, new Getter<Path, DeleteEvent>() {
-            @Override
-            public Path get(DeleteEvent e) {
-                return e.getPath();
-            }
-        }, 0);
+        EventValues.registerEventValue(DeleteEvent.class, Path.class, e -> e.getPath());
 
     }
 }

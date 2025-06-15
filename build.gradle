@@ -1,28 +1,18 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
     id 'java'
 }
 
-group 'com.olyno.skent'
+group = 'com.olyno.skent'
+version = '3.4.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // Spigot
-    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' } // Spigot
-    maven { url 'https://repo.skriptlang.org/releases' } // Skript
-    maven { url 'https://repo.destroystokyo.com/repository/maven-public/' } // Skript
-    maven { url 'https://jitpack.io' } // Skript migrate
-}
-
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    compileOnly 'com.github.SkriptLang:Skript:2.8.7'
-    compileOnly 'com.github.Olyno:skript-migrate:1.1.0'
+    compileOnly 'com.github.SkriptLang:Skript:2.11.2'
+    compileOnly 'com.github.Olyno:skript-migrate:51f0618a'
 
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'io.methvin:directory-watcher:0.18.0'

@@ -11,11 +11,13 @@ import com.olyno.skent.skript.events.bukkit.CronEvent;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.lang.Literal;
-import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
+import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.Trigger;
 
-public class EvtCron extends SelfRegisteringSkriptEvent {
+public class EvtCron extends SkriptEvent {
+
+    private static final Scheduler SCHEDULER;
 
     static {
         Skript.registerEvent("Cron task", EvtCron.class, CronEvent.class,
@@ -27,11 +29,11 @@ public class EvtCron extends SelfRegisteringSkriptEvent {
                     "\tbroadcast \"New time yeay!\""
             )
             .since("3.2.0");
+
+        SCHEDULER = new Scheduler();
     }
 
-    private Scheduler scheduler;
     private String schedulerId;
-	private Trigger trigger;
 	private String period;
 
     @Override
@@ -56,30 +58,27 @@ public class EvtCron extends SelfRegisteringSkriptEvent {
 	}
 
     @Override
-    public void register(Trigger trigger) {
-		this.trigger = trigger;
-        scheduler = new Scheduler();
+    public boolean check(Event event) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean postLoad() {
         schedulerId = UUID.randomUUID().toString();
         final CronExpressionSchedule schedule = period.split(" ").length == 6 
             ? CronExpressionSchedule.parseWithSeconds(period)
             : CronExpressionSchedule.parse(period);
-        scheduler.schedule(schedulerId, () -> execute(), schedule);
+        SCHEDULER.schedule(schedulerId, () -> execute(), schedule);
+        return true;
     }
 
     @Override
-    public void unregister(Trigger trigger) {
-        assert trigger == this.trigger;
-		this.trigger = null;
-        unregisterAll();
-    }
-
-    @Override
-    public void unregisterAll() {
-        scheduler.cancel(schedulerId);
+    public void unload() {
+        SCHEDULER.cancel(schedulerId);
     }
 
     @Override
     public String toString(Event e, boolean debug) {
-        return "cron " + period + " start";
+        return "cron '" + period + "'' start";
     }
 }

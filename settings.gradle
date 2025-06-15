@@ -1,2 +1,13 @@
 rootProject.name = 'Skent'
 
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // Spigot
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' } // Spigot
+    maven { url 'https://repo.skriptlang.org/releases' } // Skript
+    maven { url 'https://repo.destroystokyo.com/repository/maven-public/' } // Skript
+    maven { url 'https://jitpack.io' } // JitPack
+  }
+}
